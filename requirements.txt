@@ -1,0 +1,4 @@
+cdsetool
+geopandas
+shapely
+geojson
