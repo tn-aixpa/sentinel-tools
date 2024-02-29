@@ -7,14 +7,15 @@ def list_artifact(path:str):
 def upload_artifact(artifact_name="",src_path="",project_name= "", bucket_name="",endpoint_ur="",core_endpoint="",aws_key="",aws_secret=""):
     # Crea progetto, togliere local quando useremo backend
     project = dh.get_or_create_project(project_name) # , local=True for testing in local
-
+    artifact_name_new = artifact_name.replace("_","-").replace(".zip","").lower() # back end doen't like _ 
+    print(f"Loading artifact: {artifact_name}, {artifact_name_new}")
     # Crea nuovo artefatto con src_path (locale) e target_path (remoto) di destinazione
     ssrc_path = os.path.join(src_path,artifact_name)
     art = dh.new_artifact(project=project_name,
-                        name=artifact_name,
+                        name=artifact_name_new,
                         kind="artifact",
                         src_path=ssrc_path,
-                        target_path=f"s3://{bucket_name}/{artifact_name}")
+                        target_path=f"s3://{bucket_name}/{artifact_name_new}")
     art.upload()
 
 def load_all_artifacts_from_custom(path,json_sdk):
@@ -55,10 +56,7 @@ def set_environment_var_from_json(json):
 
 def load_all_artifacts(path:str,project_name= "", bucket_name="",endpoint_url="",core_endpoint="",aws_key="",aws_secret=""):
     artifacts = list_artifact(path)
-    print(f"parameters from env: project_name: {project_name}, bucket_name: {bucket_name}, endpoint_url:{endpoint_url}, core_endpoint:{core_endpoint}")
-    print(f"list artifacts to load:")
-    for i in artifacts:
-        print(f"{i}")
+    print(f"parameters from env: project_name: {project_name}, bucket_name: {bucket_name}, endpoint_url: {endpoint_url}, core_endpoint: {core_endpoint}")
     for i in artifacts:
         full_path = os.path.join(path,i)
         if not os.path.isdir(full_path):
