@@ -6,7 +6,7 @@ import digitalhub_core as dh
  ```
 
   ```Python
-  list_args =  ["main.py","{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'area_sampling': 'False', 'user': 'alattaruolo@fbk.eu','password':'2CKb!#urVFbGUa4'}"]
+  list_args =  ["main.py","{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'area_sampling': 'False', 'user': '','password':''}"]
  function = dh.new_function("container-project",name="function_name",kind="container",image="alattaruolo/sentinel-basic:v0.0.8",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
