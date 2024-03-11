@@ -23,14 +23,14 @@ import digitalhub_core as dh
  function = dh.new_function("container-project",name="function_name",kind="container",image="alattaruolo/sentinel-basic:v0.0.8",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
- - satelliteType: the type of images the two values accepted are Sentinel1/Senitnel2 
- - startDate: the starting date from where to start downloading the images
- - endDate: the ending date from where to start downloading the images
+ - satelliteType: the type of images the two values accepted are Sentinel1 / Senitnel2 
+ - startDate: the starting date from where to start downloading the images format: yyyy/mm/dd
+ - endDate: the ending date from where to start downloading the images format: yyyy/mm/dd
  - processingLevel: this is the processing level. The values accepted are: [TODO]
  - sensorMode: the mode of sensor: The values accepted are: [TODO]
  - productType: the product type of the image. The values accepted are: [TODO]
- - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/
- - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded
+ - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/ or any of your choise
+ - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded, when setted this will automatically add some parameters at the query depending from the satelliteType
  - user: user for esa credentials
  - password: password for esa credentials
 

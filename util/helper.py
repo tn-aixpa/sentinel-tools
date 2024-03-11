@@ -84,4 +84,8 @@ def from_geojson_to_wkt(obj):
     return g2.wkt
 
 def remover_all_files_from_directory(path):
-    pass
+    import shutil
+    try:
+        shutil.rmtree(path)
+    except:
+        pass
