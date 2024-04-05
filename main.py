@@ -13,7 +13,8 @@ PREPROCESS_PATH =  "preprocess" # "/media/dsl/1A2226C62D41B5A2/donwload_data/try
 
 if __name__ == "__main__":
     # ,"gpt assets/s1coherence.xml -Pimage1_fpath=files/S1A_IW_SLC__1SDV_20231124T171520_20231124T171547_051362_0632A5_BE31.SAFE -Pimage2_fpath=files/S1A_IW_SLC__1SDV_20231206T171520_20231206T171547_051537_0638A9_99C8.SAFE -Psubswath=IW3 -Pburst1=4 -Pburst2=4 -Pcoherence_fpath=files/preprocess/demo_work.tif"
-    a = CommandExecution(["echo ciao","ls /usr/local/snap","gpt assets/s1coherence.xml -Pimage1_fpath=files/S1A_IW_SLC__1SDV_20231124T171520_20231124T171547_051362_0632A5_BE31.SAFE -Pimage2_fpath=files/S1A_IW_SLC__1SDV_20231206T171520_20231206T171547_051537_0638A9_99C8.SAFE -Psubswath=IW3 -Pburst1=4 -Pburst2=4 -Pcoherence_fpath=files/preprocess/demo_work.tif"])
+    # "wget https://download.esa.int/step/auxdata/dem/SRTM90/tiff/srtm_39_03.zip","gpt assets/s1coherence.xml -Pimage1_fpath=files/S1A_IW_SLC__1SDV_20231124T171520_20231124T171547_051362_0632A5_BE31.SAFE -Pimage2_fpath=files/S1A_IW_SLC__1SDV_20231206T171520_20231206T171547_051537_0638A9_99C8.SAFE -Psubswath=IW3 -Pburst1=4 -Pburst2=4 -Pcoherence_fpath=files/preprocess/demo_work.tif"
+    a = CommandExecution(["echo ciao","ls /usr/local/snap/etc","gpt assets/s1coherence.xml -Pimage1_fpath=files/S1A_IW_SLC__1SDV_20231124T171520_20231124T171547_051362_0632A5_BE31.SAFE -Pimage2_fpath=files/S1A_IW_SLC__1SDV_20231206T171520_20231206T171547_051537_0638A9_99C8.SAFE -Psubswath=IW3 -Pburst1=4 -Pburst2=4 -Pcoherence_fpath=files/preprocess/demo_work.tif"])
     a.execute()
     # corret_form = sys.argv[1].replace("'","\"")
     # json_input_download = from_string_to_json(corret_form)

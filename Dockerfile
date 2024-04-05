@@ -32,6 +32,7 @@ RUN ./esa-snap_sentinel_unix_9_0_0.sh -q
 # link gpt so it can be used systemwide
 RUN ln -s /usr/local/snap/bin/gpt /usr/bin/gpt
 RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do echo "$line"; [ "$line" = "updates=0" ] && sleep 2 && pkill -TERM -f "snap/jre/bin/java"; done; exit 0
+RUN sed -i 's/https:\/\/download.esa.int\/step\/auxdata\/dem\/SRTM90\/tiff\//https:\/\/step.esa.int\/auxdata\/dem\/SRTM90\/tiff\//g' /usr/local/snap/etc/snap.auxdata.properties
 # RUN ls /usr/local/snap
 # RUN rm -r /usr/local/snap/s1tbx/*
 # RUN rm -r /usr/local/snap/s2tbx/*
@@ -47,6 +48,5 @@ RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do
 # # link gpt so it can be used systemwide
 # RUN ln -s /usr/local/snap/bin/gpt /usr/bin/gpt
 # RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do echo "$line"; [ "$line" = "updates=0" ] && sleep 2 && pkill -TERM -f "snap/jre/bin/java"; done; exit 0
-
 
 ENTRYPOINT [ "python","main.py" ]
