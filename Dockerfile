@@ -11,7 +11,7 @@ COPY util /util
 RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
 # RUN pip3 install -r requirements.txt
-ARG DHUB_VERSION=0.2.15
+ARG DHUB_VERSION=0.6.1
 RUN wget https://github.com/scc-digitalhub/digitalhub-sdk/archive/refs/tags/$DHUB_VERSION.zip
 RUN unzip $DHUB_VERSION.zip
 RUN mv digitalhub-sdk-$DHUB_VERSION digitalhub-sdk
@@ -50,3 +50,30 @@ RUN sed -i 's/https:\/\/download.esa.int\/step\/auxdata\/dem\/SRTM90\/tiff\//htt
 # RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do echo "$line"; [ "$line" = "updates=0" ] && sleep 2 && pkill -TERM -f "snap/jre/bin/java"; done; exit 0
 
 ENTRYPOINT [ "python","main.py" ]
+
+
+
+# kubectl apply -f - <<EOF
+# apiVersion: serving.kserve.io/v1beta1
+# kind: InferenceService
+# metadata:
+#   name: huggingface-llama3
+# spec:
+#   predictor:
+#     model:
+#       modelFormat:
+#         name: huggingface
+#       args:
+#         - --model_name=llama3
+#         - --model_id=meta-llama/meta-llama-3-8b-instruct
+#         - --validate=false
+#       resources:
+#         limits:
+#           cpu: "6"
+#           memory: 24Gi
+#           nvidia.com/gpu: "1"
+#         requests:
+#           cpu: "6"
+#           memory: 24Gi
+#           nvidia.com/gpu: "1"
+# EOF
