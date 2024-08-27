@@ -5,3 +5,4 @@ assets/sarmpc_s1_burstid_v20220530_iw_merged.geojson
 assets/sentinel2_mgrs_tiles_world.geojson
 files
 data/*
+.env

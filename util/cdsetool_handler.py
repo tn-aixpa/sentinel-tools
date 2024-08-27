@@ -32,6 +32,7 @@ def download(satelliteType,startDate,endDate,processingLevel,sensorMode,productT
         features,
         path,
         {
+            "tmpdir": path,
             "concurrency": 4,
             "monitor": StatusMonitor(),
             "credentials": Credentials(user, password),
