@@ -1,22 +1,26 @@
 
 import os
-import digitalhub_core as dh
+import digitalhub as dh
 def list_artifact(path:str):
     return os.listdir(path)
 
-def upload_artifact(artifact_name="",src_path="",project_name= "", bucket_name="",endpoint_ur="",core_endpoint="",aws_key="",aws_secret=""):
+def upload_artifact(artifact_name = "",
+                    src_path = "",
+                    project_name = "",
+                    bucket_name = ""):
+    
+    artifact_name_new = artifact_name.replace(".zip","").lower()
+    source = os.path.join(src_path, artifact_name)
+    print(f"Loading artifact: {artifact_name}, {artifact_name_new}")
+    
     # Crea progetto, togliere local quando useremo backend
     project = dh.get_or_create_project(project_name) # , local=True for testing in local
-    artifact_name_new = artifact_name.replace("_","-").replace(".zip","").lower() # back end doen't like _ 
-    print(f"Loading artifact: {artifact_name}, {artifact_name_new}")
-    # Crea nuovo artefatto con src_path (locale) e target_path (remoto) di destinazione
-    ssrc_path = os.path.join(src_path,artifact_name)
-    art = dh.new_artifact(project=project_name,
-                        name=artifact_name_new,
-                        kind="artifact",
-                        src_path=ssrc_path,
-                        target_path=f"s3://{bucket_name}/{artifact_name_new}")
-    art.upload()
+
+    # Log artifact
+    art = project.log_artifact(name=artifact_name_new,
+                               kind="artifact",
+                               path=f"s3://{bucket_name}/{project_name}/{artifact_name_new}",
+                               source=source)
 
 def load_all_artifacts_from_custom(path,json_sdk):
     project_name= json_sdk["PROJECT_NAME"]
@@ -60,13 +64,13 @@ def load_all_artifacts(path:str,project_name= "", bucket_name="",endpoint_url=""
     for i in artifacts:
         full_path = os.path.join(path,i)
         if not os.path.isdir(full_path):
-            upload_artifact(artifact_name=i,src_path=path,project_name=project_name,bucket_name=bucket_name,endpoint_ur=endpoint_url,core_endpoint=core_endpoint,aws_key=aws_key,aws_secret=aws_secret)
+            upload_artifact(artifact_name=i,src_path=path,project_name=project_name,bucket_name=bucket_name)
         else:
             #preprocessing directory
             directory_preprocess = os.path.join(path,i)
             new_list = list_artifact(directory_preprocess)
             for preprocess in new_list:
-                upload_artifact(artifact_name=preprocess,src_path=directory_preprocess,project_name=project_name,bucket_name=bucket_name,endpoint_ur=endpoint_url,core_endpoint=core_endpoint,aws_key=aws_key,aws_secret=aws_secret)
+                upload_artifact(artifact_name=preprocess,src_path=directory_preprocess,project_name=project_name,bucket_name=bucket_name)
 
 def create_json_from_env():
     result = {}
