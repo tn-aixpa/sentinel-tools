@@ -11,14 +11,15 @@ COPY util /util
 RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
 # RUN pip3 install -r requirements.txt
-ARG DHUB_VERSION=0.6.1
-RUN wget https://github.com/scc-digitalhub/digitalhub-sdk/archive/refs/tags/$DHUB_VERSION.zip
-RUN unzip $DHUB_VERSION.zip
-RUN mv digitalhub-sdk-$DHUB_VERSION digitalhub-sdk
+#ARG DHUB_VERSION=0.6.1
+#RUN wget https://github.com/scc-digitalhub/digitalhub-sdk/archive/refs/tags/$DHUB_VERSION.zip
+#RUN unzip $DHUB_VERSION.zip
+#RUN mv digitalhub-sdk-$DHUB_VERSION digitalhub-sdk
 # Install digitalhub-core, dbt
-RUN python -m pip install ./digitalhub-sdk/core
+#RUN python -m pip install ./digitalhub-sdk/core
+RUN python -m pip install digitalhub==0.7.0b0
 # Cleanup
-RUN rm -rf digitalhub-sdk $DHUB_VERSION.zip
+#RUN rm -rf digitalhub-sdk $DHUB_VERSION.zip
 RUN mkdir /files
 RUN mkdir files/preprocess
 RUN apt-get update
