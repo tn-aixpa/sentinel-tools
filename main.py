@@ -27,7 +27,7 @@ if __name__ == "__main__":
         #if enter here it was not test
         pass
     json_sdk_data = create_json_from_env()
-    set_environment_variable_username_password("alattaruolo@fbk.eu","2CKb!#urVFbGUa4") #TODO remove this and take just the user,password from env
+    #set_environment_variable_username_password("alattaruolo@fbk.eu","2CKb!#urVFbGUa4") #TODO remove this and take just the user,password from env
     user,password = get_environment_variable_username_password()
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     if download_parameters.area_sampling:
