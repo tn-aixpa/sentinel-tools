@@ -6,7 +6,8 @@ class InputSentinelClass():
     sensorMode:str = None
     productType:str = None
     geometry:str = None
-    path:str = None
+    artifact_name:str = None
+    s3_path:str = None
     user:str = None
     password:str = None
     area_sampling:bool = None
@@ -30,8 +31,10 @@ class InputSentinelClass():
             self.productType = json_input['productType']
         if 'geometry' in json_input:
             self.geometry = json_input['geometry']
-        if 'path' in json_input:
-            self.path = json_input['path']
+        if 'artifact_name' in json_input:
+            self.artifact_name = json_input['artifact_name']
+        if 's3_path' in json_input:
+            self.s3_path = json_input['s3_path']
         if user:
             self.user = user
         if password:

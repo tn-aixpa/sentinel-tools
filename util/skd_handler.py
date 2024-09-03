@@ -6,23 +6,27 @@ def list_artifact(path:str):
 
 def upload_artifact(artifact_name = "",
                     src_path = "",
+                    s3_path=None,
                     project_name = "",
                     bucket_name = ""):
     
-    artifact_name_new = artifact_name.replace(".zip","").lower()
-    source = os.path.join(src_path, artifact_name)
-    print(f"Loading artifact: {artifact_name}, {artifact_name_new}")
+    #artifact_name_new = artifact_name.replace(".zip","").lower()
+    #source = os.path.join(src_path, artifact_name)
+    print(f"Loading artifact: {artifact_name}, {artifact_name}")
     
     # Crea progetto, togliere local quando useremo backend
     project = dh.get_or_create_project(project_name) # , local=True for testing in local
 
     # Log artifact
-    art = project.log_artifact(name=artifact_name_new,
+    if s3_path == None:
+        artifact_name_new = artifact_name.replace(".zip","").lower()
+        s3_path = f"s3://{bucket_name}/{project_name}/{artifact_name_new}"
+    art = project.log_artifact(name=artifact_name,
                                kind="artifact",
-                               path=f"s3://{bucket_name}/{project_name}/{artifact_name_new}",
-                               source=source)
+                               path= s3_path,
+                               source=src_path)
 
-def load_all_artifacts_from_custom(path,json_sdk):
+def load_all_artifacts_from_custom(path_current_data,json_sdk,artifact_name,s3_path=None):
     project_name= json_sdk["PROJECT_NAME"]
     bucket_name=json_sdk["S3_BUCKET_NAME"]
     endpoint_url=json_sdk["S3_ENDPOINT_URL"]
@@ -30,7 +34,7 @@ def load_all_artifacts_from_custom(path,json_sdk):
     aws_secret = json_sdk["AWS_SECRET_ACCESS_KEY"]
     core_endpoint =json_sdk["DIGITALHUB_CORE_ENDPOINT"]
     # set_environment_var(project_name=project_name,bucket_name=bucket_name,endpoint_url=endpoint_url,core_endpoint=core_endpoint,aws_key=aws_key,aws_secret=aws_secret)
-    load_all_artifacts(path,project_name=project_name,bucket_name=bucket_name,endpoint_url=endpoint_url,core_endpoint=core_endpoint,aws_key=aws_key,aws_secret=aws_secret)
+    load_all_artifacts(path_current_data,artifact_name=artifact_name,project_name=project_name,bucket_name=bucket_name,s3_path=s3_path)
 
 def set_environment_var(project_name= "", bucket_name="",endpoint_url="",core_endpoint="",aws_key="",aws_secret=""):
     os.environ["PROJECT_NAME"] = project_name
@@ -58,19 +62,21 @@ def set_environment_var_from_json(json):
     if 'CDSETOOL_ESA_PASSWORD' in json:
         os.environ["CDSETOOL_ESA_PASSWORD"] = json["CDSETOOL_ESA_PASSWORD"]
 
-def load_all_artifacts(path:str,project_name= "", bucket_name="",endpoint_url="",core_endpoint="",aws_key="",aws_secret=""):
-    artifacts = list_artifact(path)
-    print(f"parameters from env: project_name: {project_name}, bucket_name: {bucket_name}, endpoint_url: {endpoint_url}, core_endpoint: {core_endpoint}")
-    for i in artifacts:
-        full_path = os.path.join(path,i)
-        if not os.path.isdir(full_path):
-            upload_artifact(artifact_name=i,src_path=path,project_name=project_name,bucket_name=bucket_name)
-        else:
-            #preprocessing directory
-            directory_preprocess = os.path.join(path,i)
-            new_list = list_artifact(directory_preprocess)
-            for preprocess in new_list:
-                upload_artifact(artifact_name=preprocess,src_path=directory_preprocess,project_name=project_name,bucket_name=bucket_name)
+def load_all_artifacts(path_current_data:str,artifact_name:str,s3_path:str=None,project_name= "", bucket_name=""):
+    upload_artifact(artifact_name=artifact_name,src_path=path_current_data,s3_path=s3_path,project_name=project_name,bucket_name=bucket_name)
+    # old implementations
+    # artifacts = list_artifact(path_current_data)
+    # print(f"parameters from env: project_name: {project_name}, bucket_name: {bucket_name}, endpoint_url: {endpoint_url}, core_endpoint: {core_endpoint}")
+    # for i in artifacts:
+    #     full_path = os.path.join(path_current_data,i)
+    #     if not os.path.isdir(full_path):
+    #         upload_artifact(artifact_name=i,src_path=path_current_data,project_name=project_name,bucket_name=bucket_name)
+    #     else:
+    #         #preprocessing directory
+    #         directory_preprocess = os.path.join(path_current_data,i)
+    #         new_list = list_artifact(directory_preprocess)
+    #         for preprocess in new_list:
+    #             upload_artifact(artifact_name=preprocess,src_path=directory_preprocess,project_name=project_name,bucket_name=bucket_name)
 
 def create_json_from_env():
     result = {}

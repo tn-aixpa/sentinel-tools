@@ -29,8 +29,6 @@ if __name__ == "__main__":
     json_sdk_data = create_json_from_env()
     set_environment_variable_username_password("alattaruolo@fbk.eu","2CKb!#urVFbGUa4") #TODO remove this and take just the user,password from env
     user,password = get_environment_variable_username_password()
-    # user = json_input_download['user']
-    # password = json_input_download['password']
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     if download_parameters.area_sampling:
         """
@@ -65,7 +63,7 @@ if __name__ == "__main__":
         download_parameters.path = DOWNLOAD_PATH
         download_from_object_json(download_parameters)
     currentpath_files = DOWNLOAD_PATH
-    load_all_artifacts_from_custom(currentpath_files,json_sdk_data)
+    load_all_artifacts_from_custom(currentpath_files,json_sdk_data,artifact_name=download_parameters.artifact_name,s3_path=download_parameters.s3_path)
     # remover_all_files_from_directory(DOWNLOAD_PATH)
     print("Finished!")
 
