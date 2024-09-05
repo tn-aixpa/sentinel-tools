@@ -23,8 +23,8 @@ def get_query(df,downl_params: InputSentinelClass):
         collection = downl_params.satelliteType
         search_terms = {
         'orbitDirection':       item['Orbit pass'],
-        'relativeOrbitNumber':  int(item['Rel. orbit number'[:10]]),
-        'geometry':             item['esaquerypoint'[:10]],
+        'relativeOrbitNumber':  int(item['Rel. orbit number']),
+        'geometry':             item['esaquerypoint'],
         'sortOrder':            'asc',
         'sortParam':            'startDate',
         'status':               'ONLINE',
@@ -59,7 +59,7 @@ def get_query(df,downl_params: InputSentinelClass):
 
     return df,features
 
-def download_products(df, products_dir, username=str, password=str):
+def download_products(df, products_dir, username:str, password:str,tmp_path_same_folder_dwl:bool):
     """
     Consistent download of all products from the DataFrame.
 
@@ -85,7 +85,13 @@ def download_products(df, products_dir, username=str, password=str):
     # for feature in features_list:
     #     print(feature['properties']['title'])
     #     iter_+=1
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print(f"features: {features_list}")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     options = {'credentials': credentials, 'concurrency': 4, 'monitor': StatusMonitor()}
+    if tmp_path_same_folder_dwl:
+        options['tmpdir'] = products_dir
+    #options = {"tmpdir": products_dir,'credentials': credentials, 'concurrency': 4, 'monitor': StatusMonitor()}
     list(download_features(features_list, products_dir, options))
     #downloads are yelded
     # return list(downloads)
@@ -106,7 +112,6 @@ def download_products_new(features, products_dir, username=str, password=str):
     from cdsetool.monitor import StatusMonitor
 
     credentials = Credentials(username, password)
-
     options = {'credentials': credentials, 'concurrency': 4, 'monitor': StatusMonitor()}
     print(features,products_dir,options,username,password)
     list(download_features(features, products_dir, options))

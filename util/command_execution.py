@@ -4,7 +4,15 @@ import os
 class CommandExecution():
 
     def __init__(self,list_of_commands):
-        self.list_of_commands = list_of_commands
+        if type(list_of_commands) is dict:
+            res = []
+            for key in list_of_commands.keys:
+                if len(list_of_commands[key])>0:
+                    res+list_of_commands[key]
+            self.list_of_commands = res
+            pass
+        else:
+            self.list_of_commands: List = list_of_commands
     
     def execute(self):
         results = []

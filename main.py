@@ -46,9 +46,11 @@ if __name__ == "__main__":
             query_df,features = get_query(df,download_parameters)
             # TODO add "files during production"
             # "/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files"
-            download_products(query_df,DOWNLOAD_PATH,download_parameters.user,download_parameters.password)
+            download_products(query_df,DOWNLOAD_PATH,download_parameters.user,download_parameters.password,download_parameters.tmp_path_same_folder_dwl)
             preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH) 
             snap_commands = coherence_snap_cmds(query_df,DOWNLOAD_PATH,preprocess_path)
+            exectuionenr = CommandExecution(snap_commands)
+            exectuionenr.execute()
             # print(f"commands: {snap_commands}")
         elif download_parameters.satelliteType == "Sentinel2":
             path_geojson = get_path_geojson()
@@ -78,5 +80,5 @@ if __name__ == "__main__":
 """
 #environment varible in the run command
 sudo docker build -t main-python .
-sudo docker run -v /media/mithra/DISK/download_data/:/files  -e PROJECT_NAME='my_project_sentinel' -e S3_ENDPOINT_URL='http://172.17.0.3:9000' -e AWS_ACCESS_KEY_ID='ROOTNAME' -e AWS_SECRET_ACCESS_KEY='CHANGEME123' -e S3_BUCKET_NAME='prova' -e DIGITALHUB_CORE_ENDPOINT='' -e  CDSETOOL_ESA_USER='' -e CDSETOOL_ESA_PASSWORD='' main-python  "{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))','user': 'alattaruolo@fbk.eu','password':'2CKb!#urVFbGUa4', 'area_sampling': 'False'}"
+sudo docker run -v /media/mithra/DISK/download_data/:/files  -e PROJECT_NAME='my_project_sentinel' -e S3_ENDPOINT_URL='http://172.17.0.3:9000' -e AWS_ACCESS_KEY_ID='ROOTNAME' -e AWS_SECRET_ACCESS_KEY='CHANGEME123' -e S3_BUCKET_NAME='prova' -e DIGITALHUB_CORE_ENDPOINT='' -e  CDSETOOL_ESA_USER='' -e CDSETOOL_ESA_PASSWORD='' main-python  "{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'area_sampling': 'True'}"
 """
