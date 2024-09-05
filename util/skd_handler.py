@@ -20,7 +20,7 @@ def upload_artifact(artifact_name = "",
     # Log artifact
     if s3_path == None:
         artifact_name_new = artifact_name.replace(".zip","").lower()
-        s3_path = f"s3://{bucket_name}/{project_name}/{artifact_name_new}"
+        s3_path = f"s3://{bucket_name}/{project_name}/{artifact_name_new}/"
     art = project.log_artifact(name=artifact_name,
                                kind="artifact",
                                path= s3_path,
