@@ -15,29 +15,22 @@ def execute_snap(snap_command:List[str]):
     coherence_res = exe.execute()
     return coherence_res
 
-  #===# NEW
-def bandstack_snap_cmd(input_fpath, bands, output_dir, snap_graph_path):
+def upsample_snap_cmd(image_fpath, output_dir, snap_graph_path):
     """
-    Returns the SNAP command to stack three bands for RGB visualization. 
-
-    :param input_fpath:     Fullfilepath to the target image product
-    :bands:                 List of three strings naming the bands to stack on top of each other. Example: ['B4','B3','B2'] 
-    :param output_dir:      Fulldirpath to the directory where RGB image should be saved (SNAP processing)
-    :param snap_graph_path: Fullfilepath to the SNAP graph file: s2bandstack.xml (mazanetti@fbk.eu)
-
+    Returns the SNAP command to upsample all bands to 10m resolution. 
+    
+    :param image_fpath:     Fullfilepath to the target image product
+    :param output_dir:      Fulldirpath to the directory where upsampled image should be saved (SNAP processing)
+    :param snap_graph_path: Fullfilepath to the SNAP graph file: upsample.xml (mazanetti@fbk.eu)
+    
     """
-
     import os
-
-    basename = os.path.basename(input_fpath).replace('.zip','_{}.tif'.format(''.join(bands)))
-    output_fpath = os.path.join(output_dir,basename)
-
-    snap_cmd = 'gpt {} -Pinput_fpath={} -Pbands={} -Poutput_fpath={}'.format(
-                    snap_graph_path,
-                    input_fpath,
-                    ','.join(bands),
-                    output_fpath)
-
+    basename = os.path.basename(image_fpath).replace('.zip','.dim')
+    result_fpath = os.path.join(output_dir,basename)
+    snap_cmd = 'gpt {} -Pimage_fpath={} -Presult_fpath={}'.format(
+                snap_graph_path,
+                image_fpath,
+                result_fpath)
     return snap_cmd
 
 def execute_preprocessing_sentinel2(operation:List[CoupleBase],products_dir:str,output_dir):
@@ -60,7 +53,7 @@ def execute_preprocessing_sentinel2(operation:List[CoupleBase],products_dir:str,
         for image_fpath in flist:
             new_image_fpath = os.path.join(products_dir,image_fpath)
             snap_graph_path = os.path.join("assets","bandmath.xml")
-            snap = bandstack_snap_cmd(new_image_fpath,bandsCouple.name,bandsCouple.list_products,new_output_dir,snap_graph_path)
+            snap = expression_snap_cmd(new_image_fpath,bandsCouple.name,bandsCouple.list_products,new_output_dir,snap_graph_path)
             snap_commands.append(snap)
     snap_graph_path_rgb = os.path.join("assets","bandstack.xml")
     for custom_el in custom_elabs:

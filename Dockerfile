@@ -2,6 +2,7 @@
 # FROM mundialis/esa-snap:latest
 FROM python:3.9
 COPY main.py .
+#COPY test.py .
 COPY requirements.txt .
 RUN mkdir /assets
 RUN mkdir /data
@@ -51,6 +52,7 @@ RUN sed -i 's/https:\/\/download.esa.int\/step\/auxdata\/dem\/SRTM90\/tiff\//htt
 # RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do echo "$line"; [ "$line" = "updates=0" ] && sleep 2 && pkill -TERM -f "snap/jre/bin/java"; done; exit 0
 
 ENTRYPOINT [ "python","main.py" ]
+#ENTRYPOINT [ "python","test.py" ]
 
 
 

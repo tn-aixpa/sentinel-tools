@@ -56,4 +56,6 @@ class InputSentinelClass():
         self.processingLevel = None
 
     def embed_parameters_preprocessing_sentienl2(self):
-        pass
+        self.processingLevel =  'S2MSI2A'
+        self.productType = None
+        self.sensorMode = None
