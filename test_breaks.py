@@ -7,8 +7,8 @@ features = [{'type': 'Feature', 'id': '5179b7e6-b104-499a-a884-8342709764b0', 'g
 username, password = "alattaruolo@fbk.eu","2CKb!#urVFbGUa4"
 products_dir = "/home/mithra/Documents/donwload_sentinel_test/"
 credentials = Credentials(username, password)
-options = {"tmpdir": products_dir,'credentials': credentials, 'concurrency': 1,}
-#options = {"tmpdir": products_dir,'credentials': credentials, 'concurrency': 1, 'monitor': StatusMonitor()}
+#options = {"tmpdir": products_dir,'credentials': credentials, 'concurrency': 1,}
+options = {"tmpdir": products_dir,'credentials': credentials, 'concurrency': 4, 'monitor': StatusMonitor()}
 print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ start downloading @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 list(download_features(features, products_dir, options))
 print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ end downloading @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")

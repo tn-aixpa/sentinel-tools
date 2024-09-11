@@ -6,9 +6,9 @@ class CommandExecution():
     def __init__(self,list_of_commands):
         if type(list_of_commands) is dict:
             res = []
-            for key in list_of_commands.keys:
+            for key in list_of_commands.keys():
                 if len(list_of_commands[key])>0:
-                    res+list_of_commands[key]
+                    res += list_of_commands[key]
             self.list_of_commands = res
             pass
         else:
@@ -16,7 +16,8 @@ class CommandExecution():
     
     def execute(self):
         results = []
-        self.set_env()
+        print(f"commands: {self.list_of_commands}")
+        #self.set_env()
         for command in self.list_of_commands:
             if command != "":
                 res = self.promt_command(command)

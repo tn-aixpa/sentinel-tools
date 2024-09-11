@@ -1,6 +1,6 @@
 from util.input_sentinel_class import InputSentinelClass 
 
-def get_query(df,downl_params: InputSentinelClass):
+def get_query_sentinel1(df,downl_params: InputSentinelClass):
     """
     Append to the GeoDataFrame the query of the products to download @esa-scihub.
 
@@ -58,6 +58,48 @@ def get_query(df,downl_params: InputSentinelClass):
     df = pd.DataFrame.from_dict(features_list)
 
     return df,features
+
+def get_query_sentinel2(df, downl_params: InputSentinelClass):
+    """
+    Append to the GeoDataFrame the query of the products to download @cdse.
+    
+    :param df:       GeoDataFrame coming out from get_mgrs()
+    :param date1:    String isoformat, date from which to start searching for the closest product
+    :param date2:    String isoformat, date up to which searching for the closest product
+    
+    """
+    
+    from cdsetool.query import query_features
+    import pandas as pd
+    
+    #set dates
+    qdate1 = downl_params.startDate+'T00:00:00.000Z'
+    qdate2 = downl_params.endDate+'T23:59:59.999Z'
+    
+    #iterate over mgrs tile items
+    features_list = []
+    for index,item in df.iterrows():
+      collection = 'Sentinel2'
+      search_terms = {
+        'startDate':        qdate1,
+        'completionDate':   qdate2,
+        'processingLevel':  'S2MSI2A',
+        'tileId':           item['Name'],
+        'sortOrder':        'asc',
+        'sortParam':        'startDate',
+      }
+      #query products features
+      features = query_features(collection, search_terms)
+      for f in features:
+        f['tileId'] = item['Name']
+        f['relativeOrbitNumber'] = f['properties']['relativeOrbitNumber']
+        f['Name'] = 'T{}_R{:03d}'.format(f['tileId'],f['relativeOrbitNumber'])
+        features_list.append(f)
+
+    #make dataframe
+    df = pd.DataFrame.from_dict(features_list)
+
+    return df
 
 def download_products(df, products_dir, username:str, password:str,tmp_path_same_folder_dwl:bool):
     """
