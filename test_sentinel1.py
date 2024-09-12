@@ -10,14 +10,35 @@ from util.command_execution import CommandExecution
 def from_string_to_json(string):
     return json.loads(string)
 
+# Sentinel1 paramas
+"""
+  'satelliteParams':{
+      'satelliteType': 'Sentinel1',
+      'processingLevel': 'LEVEL1',
+      'sensorMode': 'IW',
+      'productType': 'SLC'
+  } ,
+
+"""
+# sentinel2 params
+"""
+  'satelliteParams':{
+      'satelliteType': 'Sentinel2',
+      'processingLevel': ''
+  } ,
+"""
+
+
 if __name__ == "__main__":
     abc = """{
-  'satelliteType': 'Sentinel2',
+  'satelliteParams':{
+      'satelliteType': 'Sentinel1',
+      'processingLevel': 'LEVEL1',
+      'sensorMode': 'IW',
+      'productType': 'SLC'
+  } ,
   'startDate': '2023-12-01',
   'endDate': '2023-12-13',
-  'processingLevel': 'LEVEL1',
-  'sensorMode': 'IW',
-  'productType': 'SLC',
   'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))',
   'area_sampling': 'True',
   'artifact_name': 'files_from_sentinel'
@@ -27,9 +48,9 @@ if __name__ == "__main__":
     user,password = "alattaruolo@fbk.eu","2CKb!#urVFbGUa4"
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     path_geojson = get_path_geojson()
-    path_msg = get_path_geometry_mgrs()
-    df = get_mgrs(path_geojson,path_msg)
-    query_df = get_query_sentinel1(df,download_parameters)
+    path_burst = get_path_geometry_burst()
+    df = get_bursts(path_geojson,path_burst) #df = get_bust_second() #
+    query_df,features = get_query_sentinel1(df,download_parameters)
     DOWNLOAD_PATH = "/home/mithra/Documents/donwload_sentinel_test/"
     download_products(query_df,DOWNLOAD_PATH,download_parameters.user,download_parameters.password,download_parameters.tmp_path_same_folder_dwl)
     print("PREPROCESSING STARTED ...")

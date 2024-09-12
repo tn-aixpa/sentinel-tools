@@ -45,10 +45,7 @@ def execute_preprocessing_sentinel2(operation:List[CoupleBase],products_dir:str,
     import os
     #print(products_dir)
     flist = [name_f for name_f in get_all_files_name_in_dir(products_dir) if name_f.find(".dim")>=0]
-    #flist = glob(products_dir+"*",recursive=True)
-    #print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&: ", flist)
     norm_diff_elabs =[i for i in operation if not i.custom]
-    #print(norm_diff_elabs)
     custom_elabs =[i for i in operation if i.custom]
     print("RGB elabs", custom_elabs)
     snap_commands = []

@@ -36,7 +36,8 @@ if __name__ == "__main__":
         """
         geoj = from_wkt_to_geojson(download_parameters.geometry)
         from_geojson_to_file(geoj)
-        if download_parameters.satelliteType == "Sentinel1":
+        if download_parameters.is_sentinel1():
+            # sentinel1
             download_parameters.embed_parameters_preprocessing_sentienl1()
             path_geojson = get_path_geojson()
             path_burst = get_path_geometry_burst()
@@ -52,7 +53,8 @@ if __name__ == "__main__":
             exectuionenr = CommandExecution(snap_commands)
             exectuionenr.execute()
             # print(f"commands: {snap_commands}")
-        elif download_parameters.satelliteType == "Sentinel2":
+        elif download_parameters.is_sentinel2():
+            # sentinel2
             download_parameters.embed_parameters_preprocessing_sentienl2()
             path_geojson = get_path_geojson()
             path_msg = get_path_geometry_mgrs()

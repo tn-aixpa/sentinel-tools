@@ -18,12 +18,14 @@ secret1 = proj.new_secret(name="CDSETOOL_ESA_PASSWORD", secret_value="") #creden
 
   ```Python
 string_dict_data = """{
-  'satelliteType': 'Sentinel1',
+  'satelliteParams':{
+      'satelliteType': 'Sentinel1',
+      'processingLevel': 'LEVEL1',
+      'sensorMode': 'IW',
+      'productType': 'SLC'
+  } ,
   'startDate': '2023-12-12',
   'endDate': '2023-12-13',
-  'processingLevel': 'LEVEL1',
-  'sensorMode': 'IW',
-  'productType': 'SLC',
   'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))',
   'area_sampling': 'False',
   'artifact_name': 'directory_name_inside_s3',
@@ -33,12 +35,27 @@ list_args =  ["main.py",string_dict_data]
 function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.13",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
- - satelliteType: the type of images the two values accepted are Sentinel1 / Senitnel2 
+ - satelliteParams: is a json that takes two different values :
+  
+```Python
+# for sentinel1:
+  'satelliteParams':{
+      'satelliteType': 'Sentinel1',
+      'processingLevel': 'LEVEL1', # Select the processing level
+      'sensorMode': 'IW', # Select the sensor mode
+      'productType': 'SLC' # Select the product type
+  } ,
+```
+ 
+  ```Python
+  # for sentinel2:
+    'satelliteParams':{
+      'satelliteType': 'Sentinel2',
+      'processingLevel': '' # Select the processing level
+  } ,
+  ```
  - startDate: the starting date from where to start downloading the images format: yyyy/mm/dd
  - endDate: the ending date from where to start downloading the images format: yyyy/mm/dd
- - processingLevel: this is the processing level. The values accepted are: [TODO]
- - sensorMode: the mode of sensor: The values accepted are: [TODO]
- - productType: the product type of the image. The values accepted are: [TODO]
  - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/ or any of your choise
  - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded, when setted this will automatically add some parameters at the query depending from the satelliteType
  - artifact_name: is the name of the directory in which it will be uploaded all the data downloaded and preprocessed by the application

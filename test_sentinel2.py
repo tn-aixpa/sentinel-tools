@@ -12,12 +12,12 @@ def from_string_to_json(string):
 
 if __name__ == "__main__":
     abc = """{
-  'satelliteType': 'Sentinel1',
+      'satelliteParams':{
+      'satelliteType': 'Sentinel2',
+      'processingLevel': ''
+  } ,
   'startDate': '2023-12-01',
   'endDate': '2023-12-13',
-  'processingLevel': 'LEVEL1',
-  'sensorMode': 'IW',
-  'productType': 'SLC',
   'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))',
   'area_sampling': 'True',
   'artifact_name': 'files_from_sentinel'
