@@ -48,6 +48,7 @@ def get_mgrs(geom_path: str, mgrs_path: str):
     geometry_df = gpd.read_file(geom_path)
     print('Reading MGRS database...')
     mgrs_df = gpd.read_file(mgrs_path)
+    # print(f"mgrd_df: {mgrs_df}")
     #intersect geometry with bursts
     print('Finding intersecting bursts...')
     idx = mgrs_df.intersects(geometry_df.iloc[0]['geometry'])

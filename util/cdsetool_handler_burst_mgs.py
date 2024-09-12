@@ -33,12 +33,12 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
             search_terms['startDate'] =qdate1
         if downl_params.endDate:
             search_terms['completionDate'] =qdate2
-        if downl_params.productType:
-            search_terms['productType'] = downl_params.productType
-        if downl_params.sensorMode:
-            search_terms['sensorMode'] = downl_params.sensorMode
-        if downl_params.processingLevel:
-            search_terms['processingLevel'] = downl_params.processingLevel
+        if downl_params.sentinel1Param.productType:
+            search_terms['productType'] = downl_params.sentinel1Param.productType
+        if downl_params.sentinel1Param.sensorMode:
+            search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
+        if downl_params.sentinel1Param.processingLevel:
+            search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
         #query products features
         features = query_features(collection, search_terms)
         for f in features:
