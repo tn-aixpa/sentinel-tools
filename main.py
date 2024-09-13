@@ -5,6 +5,7 @@ from util.geometry_modifier import get_bursts,get_bust_second,get_mgrs
 from util.helper import from_geojson_to_file, from_wkt_to_geojson,get_path_geojson, get_path_geometry_burst,get_path_geometry_mgrs,create_path, remover_all_files_from_directory
 from util.input_sentinel_class import InputSentinelClass
 from util.preprocess_sentinel_1 import coherence_snap_cmds
+from util.preprocess_sentinel_2 import start_executions
 from util.skd_handler import create_json_from_env,load_all_artifacts_from_custom, set_environment_var_from_json,set_environment_variable_username_password,get_environment_variable_username_password
 from util.cdsetool_handler import from_string_to_json, download_from_object_json
 
@@ -61,6 +62,8 @@ if __name__ == "__main__":
             df = get_mgrs(path_geojson,path_msg)
             query_df = get_query_sentinel2(df,download_parameters)
             download_products(query_df,"/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files",download_parameters.user,download_parameters.password)
+            preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH)
+            start_executions(download_parameters=download_parameters,products_dir=DOWNLOAD_PATH,output_dir=preprocess_path)
             # snap_path = os.path.join("assets","s1coherence.xml")
         else:
             print(f"Warning the parameter satelliteType {download_parameters.satelliteType} is not supported!")

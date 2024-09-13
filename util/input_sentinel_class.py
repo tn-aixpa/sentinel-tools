@@ -27,6 +27,10 @@ class Sentinel1Parameters():
 
 class Sentinel2Parameters():
     processingLevel:str = None
+    rgb_commands: list = None
+    bandmath: list = None
+    norm_diff: list = None
+    
 
     def __init__(self,processingLevel=None):
         self.processingLevel = processingLevel
@@ -38,8 +42,34 @@ class Sentinel2Parameters():
     def fromJson(self,params):
         if 'processingLevel' in params:
             self.processingLevel = params['processingLevel']
-
-
+        if 'rgb' in params:
+            self.rgb_commands = params['rgb']
+            self.validate_dict(self.rgb_commands,'rgb')
+        else:
+            self.rgb_commands = []
+        if 'bandmath' in params:
+            self.bandmath = params['bandmath']
+        else:
+            self.bandmath =[]
+        if 'norm_diff' in params:
+            self.norm_diff = params['norm_diff']
+            self.validate_dict(self.norm_diff,'norm_diff')
+        else:
+            self.norm_diff =[]
+    
+    def validate_dict(self,dictio:dict,type:str):
+        if 'name' not in dictio:
+            raise(f'There is a dictionary {dictio} that does not contain the key "name"')
+        if 'value' not in dictio:
+            raise(f'There is a dictionary {dictio} that does not contain the key "value"')
+        if type=='rgb':
+            if len(dictio['value']) !=3:
+                raise(f'The value provided for {dictio} is invalid! {dictio["value"]} it should have length equal to 3!!')
+        elif type=='norm_diff':
+            if len(dictio['value']) !=2:
+                raise(f'The value provided for {dictio} is invalid! {dictio["value"]} it should have length equal to 2!!')
+            
+        
 class InputSentinelClass():
     satelliteType:str = None 
     startDate:str = None

@@ -51,7 +51,10 @@ function = proj.new_function("donwload_images",kind="container",image="alattaruo
   # for sentinel2:
     'satelliteParams':{
       'satelliteType': 'Sentinel2',
-      'processingLevel': '' # Select the processing level
+      'processingLevel': '', # Select the processing level
+      'rgb_commands': [{'name':'elaborations_name','value':['B1','B2','B2']}] # this elaborations are optionals
+      'bandmath': ['NDVI','EVI','NDWI','NDSI','NBR'] # this elaborations are optionals
+      'norm_diff': [{'name':'elaborations_name','value':['B1','B2'],'name':'elaborations_name','value':['B1','B2']}] # this elaborations are optionals
   } ,
   ```
  - startDate: the starting date from where to start downloading the images format: yyyy/mm/dd
