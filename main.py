@@ -63,7 +63,10 @@ if __name__ == "__main__":
             query_df = get_query_sentinel2(df,download_parameters)
             download_products(query_df,"/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files",download_parameters.user,download_parameters.password)
             preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH)
-            start_executions(download_parameters=download_parameters,products_dir=DOWNLOAD_PATH,output_dir=preprocess_path)
+            snap_commands = start_executions(download_parameters=download_parameters,products_dir=DOWNLOAD_PATH,output_dir=preprocess_path)
+            exectuionenr = CommandExecution(snap_commands)
+            exectuionenr.execute()
+            print("Command executed")
             # snap_path = os.path.join("assets","s1coherence.xml")
         else:
             print(f"Warning the parameter satelliteType {download_parameters.satelliteType} is not supported!")
