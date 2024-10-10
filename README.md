@@ -5,14 +5,14 @@
  ```Python
 import digitalhub as dh
 # conda install -c conda-forge gdal
-PROJECT_NAME = "docket_sentinel"
+PROJECT_NAME = "project_name" # here goes the project name that you are creating on the platform
 proj = dh.get_or_create_project(PROJECT_NAME) # source="git://github.com/scc-digitalhu
 ```
 
 ```Python
 # set esa credentials as secrets
-secret0 = proj.new_secret(name="CDSETOOL_ESA_USER", secret_value="") #credentials esa
-secret1 = proj.new_secret(name="CDSETOOL_ESA_PASSWORD", secret_value="") #credentials esa 
+secret0 = proj.new_secret(name="CDSETOOL_ESA_USER", secret_value="put_your_username_esa_credential_here") #credentials esa
+secret1 = proj.new_secret(name="CDSETOOL_ESA_PASSWORD", secret_value="put_your_password_esa_credential_here") #credentials esa 
 
 ```
 
@@ -32,7 +32,7 @@ string_dict_data = """{
   's3_path': 's3://{bucket_name}/{project_name}/{path_continuations}', 
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.13",command="python",args=list_args)
+function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.16",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
  - satelliteParams: is a json that takes two different values :
@@ -60,9 +60,9 @@ function = proj.new_function("donwload_images",kind="container",image="alattaruo
  - startDate: the starting date from where to start downloading the images format: yyyy/mm/dd
  - endDate: the ending date from where to start downloading the images format: yyyy/mm/dd
  - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/ or any of your choise
- - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded, when setted this will automatically add some parameters at the query depending from the satelliteType
+ - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded as for the coherence or normal difference, when setted this will automatically add some parameters at the query depending from the satelliteType, this means that if you want the coherence this parameters should be true (and the parameters used for sentinel1 are: productType = 'SLC', sensorMode = 'IW')
  - artifact_name: is the name of the artifact in which it will be uploaded all the data downloaded and preprocessed by the application
- - s3_path: is the path in which you can find inside the s3 the downloaded data this is optional and the deafult path is : 
+ - s3_path: is the path in which you can find inside the s3 the downloaded data this is optional and the deafult path is : {bucket_name}/{project_name}/
 
 
 First create a volume inside krm persistent volume claim as disk  readWriteOnce, and the volume name should be the same as the name passed in claim_name inside the volume in the code below
@@ -80,7 +80,7 @@ volumes=[{
     }}],)
  ```
 
- ### HOW to build the image
+ ### HOW to build the image for testing and deploy in production (N.B. Not needed for jupiter notebook user)
  ```
  sudo docker build -t IMAGE-NAME .
  sudo docker build -t main-python .
@@ -113,8 +113,8 @@ Those are parameters used in the digitalhub_core, CDSETOOL_ESA_USER and CDSETOOL
 sudo docker login
 docker tag IMAGE-NAME alattaruolo/sentinel-basic:v?.?.?
 docker push alattaruolo/sentinel-basic:v?.?.?
-sudo docker tag main-python alattaruolo/sentinel-basic:v0.0.14
-sudo docker push alattaruolo/sentinel-basic:v0.0.14
+sudo docker tag main-python alattaruolo/sentinel-basic:v0.0.16
+sudo docker push alattaruolo/sentinel-basic:v0.0.16
 ```
 
 Tagging the image and making it public.
