@@ -28,7 +28,7 @@ string_dict_data = """{
   'endDate': '2023-12-13',
   'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))',
   'area_sampling': 'False',
-  'artifact_name': 'directory_name_inside_s3',
+  'artifact_name': 'name_for_artifact',
   's3_path': 's3://{bucket_name}/{project_name}/{path_continuations}', 
   }"""
 list_args =  ["main.py",string_dict_data]
@@ -61,7 +61,7 @@ function = proj.new_function("donwload_images",kind="container",image="alattaruo
  - endDate: the ending date from where to start downloading the images format: yyyy/mm/dd
  - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/ or any of your choise
  - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded, when setted this will automatically add some parameters at the query depending from the satelliteType
- - artifact_name: is the name of the directory in which it will be uploaded all the data downloaded and preprocessed by the application
+ - artifact_name: is the name of the artifact in which it will be uploaded all the data downloaded and preprocessed by the application
  - s3_path: is the path in which you can find inside the s3 the downloaded data this is optional and the deafult path is : 
 
 

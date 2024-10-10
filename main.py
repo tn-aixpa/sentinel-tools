@@ -1,5 +1,5 @@
 import sys
-from util.cdsetool_handler_burst_mgs import download_products_new, get_query_sentinel1,download_products, get_query_sentinel2
+from util.cdsetool_handler_burst_mgs import get_query_sentinel1,download_products, get_query_sentinel2
 from util.command_execution import CommandExecution
 from util.geometry_modifier import get_bursts,get_bust_second,get_mgrs
 from util.helper import from_geojson_to_file, from_wkt_to_geojson,get_path_geojson, get_path_geometry_burst,get_path_geometry_mgrs,create_path, remover_all_files_from_directory
@@ -61,7 +61,7 @@ if __name__ == "__main__":
             path_msg = get_path_geometry_mgrs()
             df = get_mgrs(path_geojson,path_msg)
             query_df = get_query_sentinel2(df,download_parameters)
-            download_products(query_df,"/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files",download_parameters.user,download_parameters.password)
+            download_products(query_df,DOWNLOAD_PATH,download_parameters.user,download_parameters.password)
             preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH)
             snap_commands = start_executions(download_parameters=download_parameters,products_dir=DOWNLOAD_PATH,output_dir=preprocess_path)
             exectuionenr = CommandExecution(snap_commands)
