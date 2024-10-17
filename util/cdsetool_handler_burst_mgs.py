@@ -39,7 +39,7 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
             search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
         if downl_params.sentinel1Param.processingLevel:
             search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
-        print(search_terms)
+        # print(search_terms)
         #query products features
         features = query_features(collection, search_terms)
         for f in features:

@@ -122,6 +122,8 @@ class InputSentinelClass():
             self.area_sampling = False
         if 'tmp_path_same_folder_dwl' in json_input:
             self.tmp_path_same_folder_dwl = json_input['tmp_path_same_folder_dwl'].lower() in ['true','vero','t','yes','v']
+        else:
+            self.tmp_path_same_folder_dwl = False
         if 'tileId' in json_input:
             self.tileId = json_input['tileId']
     
