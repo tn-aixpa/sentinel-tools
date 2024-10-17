@@ -26,9 +26,10 @@ if __name__ == "__main__":
         set_environment_var_from_json(string_json)
     except Exception as e:
         #if enter here it was not test
+        print("You are in production")
         pass
     json_sdk_data = create_json_from_env()
-    #set_environment_variable_username_password("alattaruolo@fbk.eu","2CKb!#urVFbGUa4") #TODO remove this and take just the user,password from env
+    set_environment_variable_username_password("alattaruolo@fbk.eu","2CKb!#urVFbGUa4") #TODO remove this and take just the user,password from env
     user,password = get_environment_variable_username_password()
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     if download_parameters.area_sampling:
@@ -51,8 +52,7 @@ if __name__ == "__main__":
             download_products(query_df,DOWNLOAD_PATH,download_parameters.user,download_parameters.password,download_parameters.tmp_path_same_folder_dwl)
             preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH) 
             snap_commands = coherence_snap_cmds(query_df,DOWNLOAD_PATH,preprocess_path)
-            exectuionenr = CommandExecution(snap_commands)
-            exectuionenr.execute()
+            exectuioner = CommandExecution(snap_commands)
             # print(f"commands: {snap_commands}")
         elif download_parameters.is_sentinel2():
             # sentinel2
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         else:
             print(f"Warning the parameter satelliteType {download_parameters.satelliteType} is not supported!")
     else:
-        download_parameters.path = DOWNLOAD_PATH
+        download_parameters.tmp_path_same_folder_dwl = DOWNLOAD_PATH
         download_from_object_json(download_parameters)
     currentpath_files = DOWNLOAD_PATH
     load_all_artifacts_from_custom(currentpath_files,json_sdk_data,artifact_name=download_parameters.artifact_name,s3_path=download_parameters.s3_path)
@@ -89,5 +89,5 @@ if __name__ == "__main__":
 """
 #environment varible in the run command
 sudo docker build -t main-python .
-sudo docker run -v /media/mithra/DISK/download_data/:/files  -e PROJECT_NAME='my_project_sentinel' -e S3_ENDPOINT_URL='http://172.17.0.3:9000' -e AWS_ACCESS_KEY_ID='ROOTNAME' -e AWS_SECRET_ACCESS_KEY='CHANGEME123' -e S3_BUCKET_NAME='prova' -e DIGITALHUB_CORE_ENDPOINT='' -e  CDSETOOL_ESA_USER='' -e CDSETOOL_ESA_PASSWORD='' main-python  "{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'area_sampling': 'True'}"
+sudo docker run -v /home/mithra/Documents/donwload_sentinel_test/with_notebook/:/files  main-python  "{  'startDate': '2023-12-12', 'endDate': '2023-12-13', 'satelliteParams':{'satelliteType': 'Sentinel1','processingLevel': 'LEVEL1','sensorMode': 'IW','productType': 'SLC'  } ,  'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))','area_sampling': 'True',  'artifact_name': 'directory_name_inside_s3',  's3_path': 's3://{my-bucket}/{path_to_artifact}/'  }" "{'PROJECT_NAME':'my_project_sentinel','S3_ENDPOINT_URL':'http://172.17.0.2:9000','AWS_ACCESS_KEY_ID':'ROOTNAME','AWS_SECRET_ACCESS_KEY':'CHANGEME123','S3_BUCKET_NAME': 'prova','DIGITALHUB_CORE_ENDPOINT':'', 'CDSETOOL_ESA_USER':'alattaruolo@fbk.eu','CDSETOOL_ESA_PASSWORD':''}"
 """

@@ -118,10 +118,10 @@ class InputSentinelClass():
             self.password = password
         if 'area_sampling' in json_input:
             self.area_sampling = json_input['area_sampling'].lower() in ['true','vero','t','yes','v']
-        if 'tmp_path_same_folder_dwl' in json_input:
-            self.tmp_path_same_folder_dwl = json_input['tmp_path_same_folder_dwl'].lower() in ['true','vero','t','yes','v']
         else:
             self.area_sampling = False
+        if 'tmp_path_same_folder_dwl' in json_input:
+            self.tmp_path_same_folder_dwl = json_input['tmp_path_same_folder_dwl'].lower() in ['true','vero','t','yes','v']
         if 'tileId' in json_input:
             self.tileId = json_input['tileId']
     
