@@ -17,10 +17,6 @@ def upload_artifact(artifact_name = "",
     # Crea progetto, togliere local quando useremo backend
     project = dh.get_or_create_project(project_name) # , local=True for testing in local
 
-    # Log artifact
-    if s3_path == None:
-        artifact_name_new = artifact_name.replace(".zip","").lower()
-        s3_path = f"s3://{bucket_name}/{project_name}/{artifact_name_new}/"
     art = project.log_artifact(name=artifact_name,
                                kind="artifact",
                                path= s3_path,
