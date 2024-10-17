@@ -41,8 +41,9 @@ def download(satelliteType,startDate,endDate,processingLevel,sensorMode,productT
             "geometry": geometry#shape_to_wkt("/home/dsl/Documents/fbk/CDSETool/tests/shape/POLYGON.shp"),
         },
         )
-    for feature in features:
-        print(feature.get("properties").get("title"))
+    # for feature in features:
+    #     print(feature.get("properties").get("title"))
+    print("Starting downloading...")
     list(
     download_features(
         features,
