@@ -6,3 +6,4 @@ assets/sentinel2_mgrs_tiles_world.geojson
 files
 data/*
 .env
+set_env.py
