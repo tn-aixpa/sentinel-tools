@@ -32,7 +32,7 @@ string_dict_data = """{
   's3_path': 's3://{bucket_name}/{project_name}/{path_continuations}', 
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.21",command="python",args=list_args)
+function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.22",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
  - satelliteParams: is a json that takes two different values :
@@ -113,8 +113,8 @@ Those are parameters used in the digitalhub_core, CDSETOOL_ESA_USER and CDSETOOL
 sudo docker login
 docker tag IMAGE-NAME alattaruolo/sentinel-basic:v?.?.?
 docker push alattaruolo/sentinel-basic:v?.?.?
-sudo docker tag main-python alattaruolo/sentinel-basic:v0.0.21
-sudo docker push alattaruolo/sentinel-basic:v0.0.21
+sudo docker tag main-python alattaruolo/sentinel-basic:v0.0.23
+sudo docker push alattaruolo/sentinel-basic:v0.0.23
 ```
 
 Tagging the image and making it public.

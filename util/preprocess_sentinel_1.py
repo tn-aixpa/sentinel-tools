@@ -38,7 +38,8 @@ def coherence_snap_cmds(df, products_dir, output_dir):
       #read .xml annotation files to get local burst IDs
       for i,product in df_temp.iterrows():
         #fullpath to product .zip archive
-        prod_fpath = os.path.join(products_dir,product['properties']['title']).replace('.SAFE','.zip')
+        prod_fpath = os.path.join(products_dir,product['properties']['title']+'.zip') #.replace('.SAFE','.zip')
+        # prod_fpath = os.path.join(products_dir,product['properties']['title']).replace('.zip.zip','.zip')
         #open product .zip archive in read mode
         try:
           archive = zipfile.ZipFile(prod_fpath, 'r')

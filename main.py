@@ -9,7 +9,7 @@ from util.preprocess_sentinel_2 import start_executions
 from util.skd_handler import create_json_from_env,load_all_artifacts_from_custom, set_environment_var_from_json,set_environment_variable_username_password,get_environment_variable_username_password
 from util.cdsetool_handler import from_string_to_json, download_from_object_json
 
-DOWNLOAD_PATH = '/home/mithra/Documents/donwload_sentinel_test/with_notebook' #"files" # "/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files/demo" # 
+DOWNLOAD_PATH = "files" # "/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files/demo" # 
 PREPROCESS_PATH =  "preprocess" # "/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files/preprocess" # 
 
 if __name__ == "__main__":
@@ -29,6 +29,7 @@ if __name__ == "__main__":
         print("You are in production")
         pass
     json_sdk_data = create_json_from_env()
+    # set_environment_variable_username_password("","") # TODO remove this and take just the user,password from env
     user,password = get_environment_variable_username_password()
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     if download_parameters.area_sampling:
