@@ -113,8 +113,8 @@ Those are parameters used in the digitalhub_core, CDSETOOL_ESA_USER and CDSETOOL
 sudo docker login
 docker tag IMAGE-NAME alattaruolo/sentinel-basic:v?.?.?
 docker push alattaruolo/sentinel-basic:v?.?.?
-sudo docker tag main-python alattaruolo/sentinel-basic:v0.0.24
-sudo docker push alattaruolo/sentinel-basic:v0.0.24
+sudo docker tag main-python alattaruolo/sentinel-basic:v0.0.27
+sudo docker push alattaruolo/sentinel-basic:v0.0.27
 ```
 
 Tagging the image and making it public.

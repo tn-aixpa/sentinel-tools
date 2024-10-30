@@ -1,14 +1,15 @@
 # FROM python:3.9
 # FROM mundialis/esa-snap:latest
 FROM python:3.9
+WORKDIR /app
 COPY main.py .
 #COPY test.py .
 COPY requirements.txt .
-RUN mkdir /assets
-RUN mkdir /data
-RUN mkdir /util
-COPY assets /assets
-COPY util /util
+RUN mkdir /app/assets
+RUN mkdir /app/data
+RUN mkdir /app/util
+COPY assets /app/assets
+COPY util /app/util
 RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
 # RUN pip3 install -r requirements.txt
@@ -18,11 +19,11 @@ RUN python -m pip install -r requirements.txt
 #RUN mv digitalhub-sdk-$DHUB_VERSION digitalhub-sdk
 # Install digitalhub-core, dbt
 #RUN python -m pip install ./digitalhub-sdk/core
-RUN python -m pip install digitalhub==0.8.0b3
+RUN python -m pip install digitalhub==0.8.0
 # Cleanup
 #RUN rm -rf digitalhub-sdk $DHUB_VERSION.zip
-RUN mkdir /files
-RUN mkdir /files/preprocess
+RUN mkdir /app/files
+RUN mkdir /app/files/preprocess
 RUN apt-get update
 RUN apt-get install libgfortran5
 # download snap installer version 9.0
@@ -37,7 +38,8 @@ RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do
 RUN sed -i 's/https:\/\/download.esa.int\/step\/auxdata\/dem\/SRTM90\/tiff\//https:\/\/step.esa.int\/auxdata\/dem\/SRTM90\/tiff\//g' /usr/local/snap/etc/snap.auxdata.properties
 RUN useradd -u 8877 nonroot
 # RUN groupadd -g 8877 workgroup 
-RUN chown -R 8877:8877 /data
-RUN chown -R 8877:8877 /files
+RUN chown -R 8877:8877 /app
+RUN chown -R 8877:8877 /app/data
+RUN chown -R 8877:8877 /app/files
 USER 8877
 ENTRYPOINT [ "python","main.py" ]

@@ -43,17 +43,14 @@ if __name__ == "__main__":
             download_parameters.embed_parameters_preprocessing_sentienl1()
             path_geojson = get_path_geojson()
             path_burst = get_path_geometry_burst()
-            df = get_bursts(path_geojson,path_burst) #df = get_bust_second() #
-            # df = get_bust_second()
-            # print(df.columns)
+            df = get_bursts(path_geojson,path_burst)
             query_df,features = get_query_sentinel1(df,download_parameters)
-            # TODO add "files during production"
-            # "/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files"
             download_products(query_df,DOWNLOAD_PATH,download_parameters.user,download_parameters.password,download_parameters.tmp_path_same_folder_dwl)
             preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH) 
             snap_commands = coherence_snap_cmds(query_df,DOWNLOAD_PATH,preprocess_path)
             exectuioner = CommandExecution(snap_commands)
-            # print(f"commands: {snap_commands}")
+            exectuioner.execute()
+            print("Command executed")
         elif download_parameters.is_sentinel2():
             # sentinel2
             download_parameters.embed_parameters_preprocessing_sentienl2()
