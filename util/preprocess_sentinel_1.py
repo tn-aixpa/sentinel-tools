@@ -85,7 +85,9 @@ def coherence_snap_cmds(df, products_dir, output_dir):
           b1  = idx[pairs[k][0]]
           b2  = idx[pairs[k][1]]
           sw  = 'IW'+subswath
-          dates = '_'.join((im1[-55:-40],im2[-55:-40]))
+          d1 = os.path.basename(im1).replace('__','_').split('_')[4][:8]
+          d2 = os.path.basename(im2).replace('__','_').split('_')[4][:8]
+          dates = '_'.join((d1,d2)) 
           out = os.path.join(output_dir, '{}_{}_B{}{}_MTC.tif'.format(dates,sw,b1,b2))
           snap_cmd = 'gpt {} -Pimage1_fpath={} -Pimage2_fpath={} -Psubswath={} -Pburst1={} -Pburst2={} -Pcoherence_fpath={}'.format(
                       snap_graph_path,
