@@ -1,0 +1,40 @@
+id: https://github.com/tn-aixpa/sentinel-tools
+name: Sentinel Tools
+description: Tools for Sentinel image download and preprocessing
+version: 1.0
+kind: component
+tags: remote-sensing, sentinel
+license: 
+  name: Apache License 2.0
+  ref: ./LICENSE
+problems:
+  - flood detection
+  - landslide detection
+  - damage analysis
+  - wildfire detection
+ai: remote-sensing
+domain: generic
+usages: ./docs/usage.md
+howto:
+  - title: Download Sentinel data
+    ref: ./docs/howto/download.md
+  - title: Process Sentinel data
+    ref: ./docs/howto/download-process.md
+  - title: Build docker image
+    ref: ./docs/howto/build-image.md
+datasets:
+  - id: sentinel-data
+    name: Sentinel data
+    kind: artifact
+operations:
+  - id: donwload_images
+    name: Download Sentinel images
+    kind: job
+    task: processing
+    implementation:
+      framework: aixpa
+      spec:
+        kind: container 
+        image: ghcr.io/tn-aixpa/sentinel-basic:v0.0.27
+    outputs:
+      - sentinel-data
