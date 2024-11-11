@@ -19,7 +19,7 @@ RUN python -m pip install -r requirements.txt
 #RUN mv digitalhub-sdk-$DHUB_VERSION digitalhub-sdk
 # Install digitalhub-core, dbt
 #RUN python -m pip install ./digitalhub-sdk/core
-RUN python -m pip install digitalhub==0.8.0
+# RUN python -m pip install digitalhub==0.8.0
 # Cleanup
 #RUN rm -rf digitalhub-sdk $DHUB_VERSION.zip
 RUN mkdir /app/files
