@@ -26,3 +26,8 @@ this command is used to test locally the image specifing the local volume which 
     }"""
 ```
 Those are parameters used in the digitalhub_core, CDSETOOL_ESA_USER and CDSETOOL_ESA_PASSWORD are also passed on the string_dict_data as user and password, later it will only be possible to pass through ENV.
+
+
+# HOW to build the image for testing and deploy in production
+
+In the near future just push on the release branch and it will be automated the release of the new version
