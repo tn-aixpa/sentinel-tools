@@ -11,16 +11,14 @@ from util.input_sentinel_class import InputSentinelClass
 
 def download_from_object_json(obj: InputSentinelClass):
     if obj.is_sentinel1():
-        download(obj.satelliteType,obj.startDate,obj.endDate,obj.sentinel1Param.processingLevel,obj.sentinel1Param.sensorMode,obj.sentinel1Param.productType,obj.geometry,obj.tmp_path_same_folder_dwl,obj.user,obj.password)
+        download(obj.satelliteType,obj.startDate,obj.endDate,obj.sentinel1Param.processingLevel,obj.sentinel1Param.sensorMode,obj.sentinel1Param.productType,obj.geometry,obj.tmp_path_same_folder_dwl,obj.user,obj.password,orbitDirection = obj.sentinel1Param.orbitDirection,relativeOrbitNumber=obj.sentinel1Param.relativeOrbitNumber)
     else:
-        download(obj.satelliteType,obj.startDate,obj.endDate,obj.sentinel2Param.processingLevel,None,None,obj.geometry,obj.tmp_path_same_folder_dwl,obj.user,obj.password)
+        download(obj.satelliteType,obj.startDate,obj.endDate,obj.sentinel2Param.processingLevel,None,None,obj.geometry,obj.tmp_path_same_folder_dwl,obj.user,obj.password,orbitDirection = obj.sentinel2Param.orbitDirection,relativeOrbitNumber=obj.sentinel2Param.relativeOrbitNumber)
         
-def download(satelliteType,startDate,endDate,processingLevel,sensorMode,productType,geometry,path,user,password):
+def download(satelliteType,startDate,endDate,processingLevel,sensorMode,productType,geometry,path,user,password,orbitDirection = None,relativeOrbitNumber=None):
     features = None
     if satelliteType == 'Sentinel1':
-        features = query_features(
-        satelliteType,
-        {
+        obj_for_query = {
             "startDate": startDate,
             'status':     'ONLINE',
             "completionDate": endDate,
@@ -29,18 +27,32 @@ def download(satelliteType,startDate,endDate,processingLevel,sensorMode,productT
             "productType": productType,
             "geometry": geometry#shape_to_wkt("/home/dsl/Documents/fbk/CDSETool/tests/shape/POLYGON.shp"),
         },
-        )
+        if orbitDirection:
+            obj_for_query['orbitDirection'] = orbitDirection
+        if relativeOrbitNumber:
+            obj_for_query['relativeOrbitNumber'] = relativeOrbitNumber
+        features = query_features(satelliteType,obj_for_query)
+
+        # 'orbitDirection':       item['Orbit pass'],
+        # 'relativeOrbitNumber':  int(item['Rel. orbit number']),
+        # 'geometry':             item['esaquerypoint'],
+        # 'sortOrder':            'asc',
+        # 'sortParam':            'startDate',
+        # 'status':               'ONLINE',
+        
     else:
-        features = query_features(
-        satelliteType,
-        {
+        obj_for_query ={
             "startDate": startDate,
             'status':     'ONLINE',
             "completionDate": endDate,
             "processingLevel": processingLevel,
             "geometry": geometry#shape_to_wkt("/home/dsl/Documents/fbk/CDSETool/tests/shape/POLYGON.shp"),
         },
-        )
+        if orbitDirection:
+            obj_for_query['orbitDirection'] = orbitDirection
+        if relativeOrbitNumber:
+            obj_for_query['relativeOrbitNumber'] = relativeOrbitNumber
+        features = query_features(satelliteType,obj_for_query)
     # for feature in features:
     #     print(feature.get("properties").get("title"))
     print("Starting downloading...")

@@ -1,5 +1,14 @@
 # Sentinel Tool Usage
 
+This tool is used to download images from the [European space agency](https://www.esa.int/). The images downloaded are satellite images for sentinel1 and sentinel2. The sentinel1 images can be used to obtain the coherence between two images, while the images in the sentinel 2 can be used to calculate the indexes as normalized difference for vegetation, water ,snow ,burn, RGB and False RGB.
+The tool can be used in two ways:
+- download only of the images where using the instructions on [Download Sentinel data](./docs/howto/download.md)
+- download and perform elaborations on these images using the instructions on [Download Sentinel data and prerocessing](./docs/howto/download-preprocess.md)
+
+To use the tool the user need to find: a geograpich area, a range of dates (start and end date) and the sentinel type (sentinel1 or sentinel2).
+
+
+## Volume creation
  - First create a Volume on krm with the volume-name as the name used in the name inside the json of the list of volumes
 
   ```Python

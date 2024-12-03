@@ -43,6 +43,29 @@ function = proj.new_function("donwload_images",kind="container",image="alattaruo
  ```
  the explanation of the list_args second argument  is explained as follow:
  - satelliteParams: is a json that takes two different values :
+  
+```Python
+# for sentinel1:
+  'satelliteParams':{
+      'satelliteType': 'Sentinel1',
+      'processingLevel': 'LEVEL1', # Select the processing level
+      'sensorMode': 'IW', # Select the sensor mode
+      'productType': 'SLC' # Select the product type
+  } ,
+```
+ 
+  ```Python
+  # for sentinel2:
+    'satelliteParams':{
+      'satelliteType': 'Sentinel2',
+      'processingLevel': '', # Select the processing level
+      'rgb_commands': [{'name':'elaborations_name','value':['B1','B2','B2']}], # this elaborations are optionals
+      'bandmath': ['NDVI','EVI','NDWI','NDSI','NBR'], # this elaborations are optionals
+      'norm_diff': [{'name':'elaborations_name','value':['B1','B2'],'name':'elaborations_name','value':['B1','B2']}] # this elaborations are optionals
+  } ,
+  ```
+
+ - satelliteParams: is a json that takes two different values :
  - startDate: the starting date from where to start downloading the images format: yyyy/mm/dd
  - endDate: the ending date from where to start downloading the images format: yyyy/mm/dd
  - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/ or any of your choise

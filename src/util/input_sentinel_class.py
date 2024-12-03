@@ -5,6 +5,8 @@ class Sentinel1Parameters():
     productType:str = None
     sensorMode:str = None
     processingLevel:str = None
+    orbitDirection:str = None
+    relativeOrbitNumber:str = None
 
     def __init__(self,productType=None,processingLevel=None,sensorMode=None):
         self.productType = productType
@@ -24,12 +26,18 @@ class Sentinel1Parameters():
             self.sensorMode = params['sensorMode']
         if 'productType' in params:
             self.productType = params['productType']
+        if 'orbitDirection' in params:
+            self.orbitDirection = params['orbitDirection']
+        if 'relativeOrbitNumber' in params:
+            self.relativeOrbitNumber = params['relativeOrbitNumber']
 
 class Sentinel2Parameters():
     processingLevel:str = None
     rgb_commands: list = None
     bandmath: list = None
     norm_diff: list = None
+    orbitDirection:str = None
+    relativeOrbitNumber:str = None
     
 
     def __init__(self,processingLevel=None):
@@ -56,6 +64,10 @@ class Sentinel2Parameters():
             self.validate_dict(self.norm_diff,'norm_diff')
         else:
             self.norm_diff =[]
+        if 'orbitDirection' in params:
+            self.orbitDirection = params['orbitDirection']
+        if 'relativeOrbitNumber' in params:
+            self.relativeOrbitNumber = params['relativeOrbitNumber']
     
     def validate_dict(self,dictio:dict,type:str):
         if 'name' not in dictio:
@@ -81,6 +93,8 @@ class InputSentinelClass():
     password:str = None
     area_sampling:bool = None
     tmp_path_same_folder_dwl: bool = False
+    orbitDirection:str = None
+    relativeOrbitNumber:str=None
     sortOrder:str = 'asc'
     sortParam:str = 'startDate'
     sentinel1Param : Sentinel1Parameters = None
