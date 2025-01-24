@@ -46,7 +46,7 @@ string_dict_data = """{
   "geometry": "POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))",
   "area_sampling": "False",
   "artifact_name": "name_for_artifact",
-  "s3_path": "s3://{bucket_name}/{project_name}/{path_continuations}", 
+  "s3_path": "s3://{bucket_name}/{project_name}/{path_continuations}"
   }"""
 list_args =  ["main.py",string_dict_data]
 function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.27",command="python",args=list_args)
