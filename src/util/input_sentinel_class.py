@@ -50,9 +50,10 @@ class Sentinel2Parameters():
     def fromJson(self,params):
         if 'processingLevel' in params:
             self.processingLevel = params['processingLevel']
-        if 'rgb' in params:
-            self.rgb_commands = params['rgb']
-            self.validate_dict(self.rgb_commands,'rgb')
+        if 'rgb_commands' in params:
+            self.rgb_commands = params['rgb_commands']
+            for rgb in self.rgb_commands:
+                self.validate_dict(rgb,'rgb')
         else:
             self.rgb_commands = []
         if 'bandmath' in params:
@@ -61,7 +62,8 @@ class Sentinel2Parameters():
             self.bandmath =[]
         if 'norm_diff' in params:
             self.norm_diff = params['norm_diff']
-            self.validate_dict(self.norm_diff,'norm_diff')
+            for norm in self.norm_diff:
+                self.validate_dict(norm,'norm_diff')
         else:
             self.norm_diff =[]
         if 'orbitDirection' in params:
@@ -69,7 +71,7 @@ class Sentinel2Parameters():
         if 'relativeOrbitNumber' in params:
             self.relativeOrbitNumber = params['relativeOrbitNumber']
     
-    def validate_dict(self,dictio:dict,type:str):
+    def validate_dict(self,dictio: list,type: str):
         if 'name' not in dictio:
             raise(f'There is a dictionary {dictio} that does not contain the key "name"')
         if 'value' not in dictio:
