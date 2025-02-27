@@ -15,6 +15,7 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
     #set dates
     qdate1 = downl_params.startDate+'T00:00:00.000Z'
     qdate2 = downl_params.endDate+'T23:59:59.999Z'
+    cloudCover = downl_params.cloudCover if cloudCover in downl_params  else "[0,10]"
 
     #iterate over bursts items
     features_list = []
@@ -39,6 +40,9 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
             search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
         if downl_params.sentinel1Param.processingLevel:
             search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
+        if downl_params.cloudCover:
+            search_terms['cloudCover'] = downl_params.cloudCover
+
         # print(search_terms)
         #query products features
         features = query_features(collection, search_terms)
@@ -76,7 +80,7 @@ def get_query_sentinel2(df, downl_params: InputSentinelClass):
     #set dates
     qdate1 = downl_params.startDate+'T00:00:00.000Z'
     qdate2 = downl_params.endDate+'T23:59:59.999Z'
-    
+
     #iterate over mgrs tile items
     features_list = []
     for index,item in df.iterrows():
@@ -89,6 +93,8 @@ def get_query_sentinel2(df, downl_params: InputSentinelClass):
         'sortOrder':        'asc',
         'sortParam':        'startDate',
       }
+      if downl_params.cloudCover:
+        search_terms['cloudCover'] = downl_params.cloudCover
       #query products features
       features = query_features(collection, search_terms)
       for f in features:
