@@ -36,7 +36,7 @@ RUN ./esa-snap_sentinel_unix_9_0_0.sh -q
 RUN ln -s /usr/local/snap/bin/gpt /usr/bin/gpt
 RUN snap --nosplash --nogui --modules --update-all 2>&1 | while read -r line; do echo "$line"; [ "$line" = "updates=0" ] && sleep 2 && pkill -TERM -f "snap/jre/bin/java"; done; exit 0
 RUN sed -i 's/https:\/\/download.esa.int\/step\/auxdata\/dem\/SRTM90\/tiff\//https:\/\/step.esa.int\/auxdata\/dem\/SRTM90\/tiff\//g' /usr/local/snap/etc/snap.auxdata.properties
-RUN useradd -u 8877 nonroot
+RUN useradd -m -u 8877 nonroot
 # RUN groupadd -g 8877 workgroup 
 RUN chown -R 8877:8877 /app
 RUN chown -R 8877:8877 /app/data
