@@ -13,7 +13,11 @@ def get_path_geojson():
     return create_path("data","geojson_area.geojson")
 
 def get_path_geometry_burst():
-    return create_path("assets","sarmpc_s1_burstid_v20220530_iw_merged.geojson")
+    json_file = create_path("assets","sarmpc_s1_burstid_v20220530_iw_merged.geojson")
+    if not os.path.exists(json_file):
+        zip_file = create_path("assets","sarmpc_s1_burstid_v20220530_iw_merged.geojson.zip")
+        unzipFile(zip_file,"assets")
+    return json_file
 
 def get_path_geometry_mgrs():
     return create_path("assets","sentinel2_mgrs_tiles_world.geojson")
