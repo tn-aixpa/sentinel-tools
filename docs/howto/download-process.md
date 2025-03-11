@@ -61,7 +61,8 @@ function = proj.new_function("donwload_images",kind="container",image="ghcr.io/t
       "processingLevel": "", # Select the processing level
       "rgb_commands": [{"name":"elaborations_name","value":["B1","B2","B2"]}], # this elaborations are optionals
       "bandmath": ["NDVI","EVI","NDWI","NDSI","NBR"], # this elaborations are optionals
-      "norm_diff": [{"name":"elaborations_name","value":["B1","B2"],"name":"elaborations_name","value":["B1","B2"]}] # this elaborations are optionals
+      "cloudCover": "[0,5]", # cloud coverage percent range
+       "norm_diff": [{"name":"elaborations_name","value":["B1","B2"],"name":"elaborations_name","value":["B1","B2"]}] # this elaborations are optionals
   } ,
   ```
 

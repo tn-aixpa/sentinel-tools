@@ -45,7 +45,7 @@ if __name__ == "__main__":
   }"""
     corret_form = abc.replace("'","\"")
     json_input_download = from_string_to_json(corret_form)
-    user,password = "alattaruolo@fbk.eu",""
+    user,password = "",""
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     path_geojson = get_path_geojson()
     path_burst = get_path_geometry_burst()

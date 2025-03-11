@@ -26,7 +26,7 @@ if __name__ == "__main__":
   }"""
     corret_form = abc.replace("'","\"")
     json_input_download = from_string_to_json(corret_form)
-    user,password = "alattaruolo@fbk.eu",""
+    user,password = "",""
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
     #geoj = from_wkt_to_geojson(download_parameters.geometry)
     #from_geojson_to_file(geoj)

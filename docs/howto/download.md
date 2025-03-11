@@ -49,7 +49,7 @@ string_dict_data = """{
   "s3_path": "s3://{bucket_name}/{project_name}/{path_continuations}"
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="alattaruolo/sentinel-basic:v0.0.27",command="python",args=list_args)
+function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.3",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
 
