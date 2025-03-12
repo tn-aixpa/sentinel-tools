@@ -74,16 +74,3 @@ if __name__ == "__main__":
     load_all_artifacts_from_custom(currentpath_files,json_sdk_data,artifact_name=download_parameters.artifact_name,s3_path=download_parameters.s3_path)
     # remover_all_files_from_directory(DOWNLOAD_PATH)
     print("Finished!")
-
-
-# python3.9 main.py "{'satelliteType': 'Sentinel1', 'startDate': '2023-12-24', 'endDate': '2024-01-04' , 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'path': '/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files', 'area_sampling': 'True'}" "{'PROJECT_NAME':'my_project_sentinel','S3_ENDPOINT_URL':'http://172.17.0.2:9000','AWS_ACCESS_KEY_ID':'ROOTNAME','AWS_SECRET_ACCESS_KEY':'CHANGEME123','S3_BUCKET_NAME': 'prova','DIGITALHUB_CORE_ENDPOINT':''}"
-# test query
-# python3.9 main.py "{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'area_sampling': 'False'}" "{'PROJECT_NAME':'my_project_sentinel','S3_ENDPOINT_URL':'http://172.17.0.2:9000','AWS_ACCESS_KEY_ID':'ROOTNAME','AWS_SECRET_ACCESS_KEY':'CHANGEME123','S3_BUCKET_NAME': 'prova','DIGITALHUB_CORE_ENDPOINT':'', 'CDSETOOL_ESA_USER':'alattaruolo@fbk.eu','CDSETOOL_ESA_PASSWORD':''}"
-# end test query 
-
-# python3.9 main.py "{'satelliteType': 'Sentinel1', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'processingLevel': 'LEVEL1', 'sensorMode': 'IW', 'productType': 'SLC', 'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))', 'area_sampling': 'False', 'user': 'alattaruolo@fbk.eu','password':''}"
-"""
-#environment varible in the run command
-sudo docker build -t main-python .
-sudo docker run -v /home/mithra/Documents/donwload_sentinel_test/with_notebook/:/files  main-python  "{ 'tmp_path_same_folder_dwl':'True', 'startDate': '2023-12-12', 'endDate': '2023-12-13', 'satelliteParams':{'satelliteType': 'Sentinel1','processingLevel': 'LEVEL1','sensorMode': 'IW','productType': 'SLC'  } ,  'geometry': 'POLYGON((10.98014831542969 45.455314263477874,11.030273437500002 45.44808893044964,10.99937438964844 45.42014226680115,10.953025817871096 45.435803739956725,10.98014831542969 45.455314263477874))','area_sampling': 'True',  'artifact_name': 'directory_name_inside_s3',  's3_path': 's3://{my-bucket}/{path_to_artifact}/'  }" "{'PROJECT_NAME':'my_project_sentinel','S3_ENDPOINT_URL':'http://172.17.0.2:9000','AWS_ACCESS_KEY_ID':'ROOTNAME','AWS_SECRET_ACCESS_KEY':'CHANGEME123','S3_BUCKET_NAME': 'prova','DIGITALHUB_CORE_ENDPOINT':'', 'CDSETOOL_ESA_USER':'alattaruolo@fbk.eu','CDSETOOL_ESA_PASSWORD':''}"
-"""

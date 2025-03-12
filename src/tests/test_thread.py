@@ -20,7 +20,7 @@ def execution():
     search_terms = {'orbitDirection': 'ASCENDING', 'relativeOrbitNumber': 15, 'geometry': 'POINT(10.637208711454361 45.401959349421986)', 'sortOrder': 'asc', 'sortParam': 'startDate', 'status': 'ONLINE', 'startDate': '2023-12-01T00:00:00.000Z', 'completionDate': '2023-12-13T23:59:59.999Z', 'productType': 'SLC', 'sensorMode': 'IW', 'processingLevel': 'LEVEL1'}
     #query products features
     features = query_features(collection, search_terms)
-    credentials = Credentials("alattaruolo@fbk.eu","")
+    credentials = Credentials("","")
     options = {'credentials': credentials, 'concurrency': 4, 'monitor': StatusMonitor()}
     #options = {"tmpdir": products_dir,'credentials': credentials, 'concurrency': 4, 'monitor': StatusMonitor()}
     list(download_features(features, "/home/mithra/Documents/donwload_sentinel_test/", options))
