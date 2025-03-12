@@ -15,7 +15,7 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
     #set dates
     qdate1 = downl_params.startDate+'T00:00:00.000Z'
     qdate2 = downl_params.endDate+'T23:59:59.999Z'
-    cloudCover = downl_params.cloudCover if cloudCover in downl_params  else "[0,10]"
+    cloudCover = downl_params.cloudCover if 'cloudCover' in downl_params  else "[0,10]"
 
     #iterate over bursts items
     features_list = []

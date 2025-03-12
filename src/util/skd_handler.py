@@ -28,7 +28,7 @@ def load_all_artifacts_from_custom(path_current_data,json_sdk,artifact_name,s3_p
     endpoint_url=json_sdk["S3_ENDPOINT_URL"]
     aws_key = json_sdk["AWS_ACCESS_KEY_ID"]
     aws_secret = json_sdk["AWS_SECRET_ACCESS_KEY"]
-    core_endpoint =json_sdk["DIGITALHUB_CORE_ENDPOINT"]
+    core_endpoint =json_sdk["DH_CORE_ENDPOINT"]
     # set_environment_var(project_name=project_name,bucket_name=bucket_name,endpoint_url=endpoint_url,core_endpoint=core_endpoint,aws_key=aws_key,aws_secret=aws_secret)
     load_all_artifacts(path_current_data,artifact_name=artifact_name,project_name=project_name,bucket_name=bucket_name,s3_path=s3_path)
 
@@ -36,7 +36,7 @@ def set_environment_var(project_name= "", bucket_name="",endpoint_url="",core_en
     os.environ["PROJECT_NAME"] = project_name
     os.environ["S3_BUCKET_NAME"] = bucket_name
     os.environ["S3_ENDPOINT_URL"] = endpoint_url
-    os.environ["DIGITALHUB_CORE_ENDPOINT"] = core_endpoint
+    os.environ["DH_CORE_ENDPOINT"] = core_endpoint
     os.environ["AWS_ACCESS_KEY_ID"] = aws_key
     os.environ["AWS_SECRET_ACCESS_KEY"] = aws_secret
 
@@ -47,8 +47,8 @@ def set_environment_var_from_json(json):
         os.environ["S3_BUCKET_NAME"] = json["S3_BUCKET_NAME"]
     if 'S3_ENDPOINT_URL' in json:
         os.environ["S3_ENDPOINT_URL"] = json["S3_ENDPOINT_URL"]
-    if 'DIGITALHUB_CORE_ENDPOINT' in json:
-        os.environ["DIGITALHUB_CORE_ENDPOINT"] = json["DIGITALHUB_CORE_ENDPOINT"]
+    if 'DH_CORE_ENDPOINT' in json:
+        os.environ["DH_CORE_ENDPOINT"] = json["DH_CORE_ENDPOINT"]
     if 'AWS_ACCESS_KEY_ID' in json:
         os.environ["AWS_ACCESS_KEY_ID"] = json["AWS_ACCESS_KEY_ID"]
     if 'AWS_SECRET_ACCESS_KEY' in json:
@@ -79,7 +79,7 @@ def create_json_from_env():
     result['PROJECT_NAME'] = os.environ["PROJECT_NAME"]
     result['S3_BUCKET_NAME'] = os.environ["S3_BUCKET_NAME"]
     result['S3_ENDPOINT_URL'] = os.environ["S3_ENDPOINT_URL"]
-    result['DIGITALHUB_CORE_ENDPOINT'] = os.environ["DIGITALHUB_CORE_ENDPOINT"]
+    result['DH_CORE_ENDPOINT'] = os.environ["DH_CORE_ENDPOINT"]
     result['AWS_ACCESS_KEY_ID'] = os.environ["AWS_ACCESS_KEY_ID"]
     result['AWS_SECRET_ACCESS_KEY'] = os.environ["AWS_SECRET_ACCESS_KEY"]
     return result
