@@ -17,7 +17,12 @@ def upload_artifact(artifact_name = "",
     # Crea progetto, togliere local quando useremo backend
     project = dh.get_or_create_project(project_name) # , local=True for testing in local
 
-    art = project.log_artifact(name=artifact_name,
+    if s3_path is None:
+        project.log_artifact(name=artifact_name,
+                             kind="artifact",
+                             path=src_path)
+    else:
+        project.log_artifact(name=artifact_name,
                                kind="artifact",
                                path= s3_path,
                                source=src_path)
