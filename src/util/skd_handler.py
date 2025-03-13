@@ -20,7 +20,7 @@ def upload_artifact(artifact_name = "",
     if s3_path is None:
         project.log_artifact(name=artifact_name,
                              kind="artifact",
-                             path=src_path)
+                             source=src_path)
     else:
         project.log_artifact(name=artifact_name,
                                kind="artifact",
