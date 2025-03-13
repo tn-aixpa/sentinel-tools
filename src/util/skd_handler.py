@@ -59,7 +59,7 @@ def set_environment_var_from_json(json):
         os.environ["AWS_ACCESS_KEY_ID"] = json["AWS_ACCESS_KEY_ID"]
     if 'AWS_SECRET_ACCESS_KEY' in json:
         os.environ["AWS_SECRET_ACCESS_KEY"] = json["AWS_SECRET_ACCESS_KEY"]
-     if 'AWS_SESSION_TOKEN' in json:
+    if 'AWS_SESSION_TOKEN' in json:
         os.environ["AWS_SESSION_TOKEN"] = json["AWS_SESSION_TOKEN"]
     if 'CDSETOOL_ESA_USER' in json:
         os.environ["CDSETOOL_ESA_USER"] = json["CDSETOOL_ESA_USER"]
