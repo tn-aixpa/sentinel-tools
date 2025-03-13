@@ -58,7 +58,7 @@ function = proj.new_function("donwload_images",kind="container",image="ghcr.io/t
  - geometry: this is a geometry in the format WKT. It is possible to create a WKT POLYGON using the following website https://wktmap.com/ or any of your choise
  - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded as for the coherence or normal difference, when setted this will automatically add some parameters at the query depending from the satelliteType, this means that if you want the coherence this parameters should be true (and the parameters used for sentinel1 are: productType = "SLC", sensorMode = "IW")
  - artifact_name: is the name of the artifact in which it will be uploaded all the data downloaded and preprocessed by the application
- - s3_path: is the path in which you can find inside the s3 the downloaded data this is optional and the deafult path is : {bucket_name}/{project_name}/
+ - s3_path: is the path in which you can find inside the s3 the downloaded data this is optional and the deafult path is : {bucket_name}/{project_name}/{artifact_name}/
 
 4. Execute the operation
 
