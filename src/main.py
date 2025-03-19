@@ -6,7 +6,7 @@ from util.helper import from_geojson_to_file, from_wkt_to_geojson,get_path_geojs
 from util.input_sentinel_class import InputSentinelClass
 from util.preprocess_sentinel_1 import coherence_snap_cmds
 from util.preprocess_sentinel_2 import start_executions
-from util.skd_handler import create_json_from_env,load_all_artifacts_from_custom, set_environment_var_from_json,set_environment_variable_username_password,get_environment_variable_username_password
+from util.skd_handler import create_json_from_env,load_all_artifacts_from_custom, set_environment_variable_username_password,get_environment_variable_username_password
 from util.cdsetool_handler import from_string_to_json, download_from_object_json
 
 DOWNLOAD_PATH = "files" # "/media/dsl/1A2226C62D41B5A2/donwload_data/try_script/files/demo" # 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         # sdk variables passed as argument and added to the environment for testing
         sdk_data = sys.argv[2].replace("'","\"")
         string_json = from_string_to_json(sdk_data)
-        set_environment_var_from_json(string_json)
+        # set_environment_var_from_json(string_json)
     except Exception as e:
         #if enter here it was not test
         print("You are in production")
