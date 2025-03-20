@@ -148,6 +148,8 @@ class InputSentinelClass():
             self.cloudCover = json_input['cloudCover']
         if 'preprocess_data_only' in json_input:
             self.preprocess_data_only = json_input['preprocess_data_only'].lower() in ['true','vero','t','yes','v']
+        else:
+            self.preprocess_data_only = False
     
     def embed_parameters_preprocessing_sentienl1(self):
         """ These parameters if we need the preprocessing for sentinel1 need to be with these values"""
@@ -165,3 +167,6 @@ class InputSentinelClass():
         if self.satelliteType == SENTINEL2:
             return True
         return False
+
+    def log_preprocess_only(self):
+        return self.preprocess_data_only
