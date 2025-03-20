@@ -101,7 +101,8 @@ class InputSentinelClass():
     sortParam:str = 'startDate'
     sentinel1Param : Sentinel1Parameters = None
     sentinel2Param : Sentinel2Parameters = None
-    cloudCover:str = "[0,10]"
+    cloudCover:str = "[0,10]",
+    preprocess_data_only:bool = None
 
 
     def __init__(self,json_input,user=None,password=None) -> None:
@@ -145,6 +146,8 @@ class InputSentinelClass():
             self.tileId = json_input['tileId']
         if 'cloudCover' in json_input:
             self.cloudCover = json_input['cloudCover']
+        if 'preprocess_data_only' in json_input:
+            self.preprocess_data_only = json_input['preprocess_data_only'].lower() in ['true','vero','t','yes','v']
     
     def embed_parameters_preprocessing_sentienl1(self):
         """ These parameters if we need the preprocessing for sentinel1 need to be with these values"""
