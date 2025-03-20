@@ -72,7 +72,7 @@ if __name__ == "__main__":
         download_from_object_json(download_parameters)
     # currentpath_files = DOWNLOAD_PATH
     
-    if (download_parameters.log_preprocess_only):
+    if (download_parameters.log_preprocess_only()):
         currentpath_files = preprocess_path
         print(f"Logging only preprocess data from {currentpath_files}")
     else:
