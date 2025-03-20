@@ -70,10 +70,14 @@ if __name__ == "__main__":
     else:
         download_parameters.tmp_path_same_folder_dwl = DOWNLOAD_PATH
         download_from_object_json(download_parameters)
-    currentpath_files = DOWNLOAD_PATH
+    # currentpath_files = DOWNLOAD_PATH
     
     if (download_parameters.log_preprocess_only):
-        currentpath_files = preprocess_path 
+        currentpath_files = preprocess_path
+        print(f"Logging only preprocess data from {currentpath_files}")
+    else:
+        currentpath_files = DOWNLOAD_PATH
+        print(f"Logging all data (downloaded + preporcess) from {currentpath_files}")
     
     load_all_artifacts_from_custom(currentpath_files,json_sdk_data,artifact_name=download_parameters.artifact_name,s3_path=download_parameters.s3_path)
    
