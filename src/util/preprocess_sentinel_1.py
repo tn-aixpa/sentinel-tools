@@ -60,18 +60,28 @@ def coherence_snap_cmds(df, products_dir, output_dir):
             xml = archive.read(fname)
             break
         if xml != None:
-          #parse .xml annotation
-          element = et.fromstring(xml)
-          #get burst IDs 
-          ids = [int(burst.find('burstId').text) for burst in element.iter('burst')]
-          #find the local burst ID position (1-9)
-          try:
-            idx_ = ids.index(int(name[4:10]))+1
-          except:
-            idx_ = -1
-          #store info
-          idx.append(idx_)
-          img.append(prod_fpath)
+           #parse .xml annotation
+           element = et.fromstring(xml)
+           idx_ = -1
+           # check if burstId exists.
+           burstIdExists = False           
+           for burst in element.iter('burst'):
+               if (burst.find('burstId') is not None):
+                   burstIdExists = True
+                   break
+            # create idx if burstId exist       
+            if (burstIdExists):
+                #get burst IDs
+                ids = [int(burst.find('burstId').text) for burst in element.iter('burst')]
+                #find the local burst ID position (1-9)
+                try:
+                    idx_ = ids.index(int(name[4:10]))+1
+                except:
+                    idx_ = -1
+                    
+           #store info
+           idx.append(idx_)
+           img.append(prod_fpath)
       pairs = []
       if len(idx) >0:
         #pairs with -1 (no burst ID position found) are not made
