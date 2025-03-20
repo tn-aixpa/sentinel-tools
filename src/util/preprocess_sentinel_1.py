@@ -69,16 +69,16 @@ def coherence_snap_cmds(df, products_dir, output_dir):
                if (burst.find('burstId') is not None):
                    burstIdExists = True
                    break
-            # create idx if burstId exist       
-            if (burstIdExists):
-                #get burst IDs
-                ids = [int(burst.find('burstId').text) for burst in element.iter('burst')]
-                #find the local burst ID position (1-9)
-                try:
-                    idx_ = ids.index(int(name[4:10]))+1
-                except:
-                    idx_ = -1
-                    
+           # create idx if burstId exist       
+           if (burstIdExists):
+               #get burst IDs
+               ids = [int(burst.find('burstId').text) for burst in element.iter('burst')]
+               #find the local burst ID position (1-9)
+               try:
+                   idx_ = ids.index(int(name[4:10]))+1
+               except:
+                   idx_ = -1
+                   
            #store info
            idx.append(idx_)
            img.append(prod_fpath)
