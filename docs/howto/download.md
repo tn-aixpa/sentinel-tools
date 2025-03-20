@@ -49,7 +49,7 @@ string_dict_data = """{
   "s3_path": "s3://{bucket_name}/{project_name}/{path_continuations}"
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.3",command="python",args=list_args)
+function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.0",command="python",args=list_args)
  ```
  the explanation of the list_args second argument  is explained as follow:
 
@@ -59,6 +59,8 @@ function = proj.new_function("donwload_images",kind="container",image="ghcr.io/t
  - area_sampling: this should be setted to true when we want the preprocessing of the data downloaded as for the coherence or normal difference, when setted this will automatically add some parameters at the query depending from the satelliteType, this means that if you want the coherence this parameters should be true (and the parameters used for sentinel1 are: productType = "SLC", sensorMode = "IW")
  - artifact_name: is the name of the artifact in which it will be uploaded all the data downloaded and preprocessed by the application
  - s3_path: is the path in which you can find inside the s3 the downloaded data this is optional and the deafult path is : {bucket_name}/{project_name}/{artifact_name}/
+ - preprocess_data_only: this should be setted to true when only preprocessing of data must be logged as artifact. This is optional flag which by default is
+ set to false to log all data (downloaded + preprocess).
 
 4. Execute the operation
 
