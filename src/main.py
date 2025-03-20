@@ -71,6 +71,10 @@ if __name__ == "__main__":
         download_parameters.tmp_path_same_folder_dwl = DOWNLOAD_PATH
         download_from_object_json(download_parameters)
     currentpath_files = DOWNLOAD_PATH
+    
+    if (bool(download_parameters.preprocess_data_only)):
+        currentpath_files = preprocess_path 
+    
     load_all_artifacts_from_custom(currentpath_files,json_sdk_data,artifact_name=download_parameters.artifact_name,s3_path=download_parameters.s3_path)
-    # remover_all_files_from_directory(DOWNLOAD_PATH)
+   
     print("Finished!")
