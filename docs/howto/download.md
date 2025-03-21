@@ -50,7 +50,7 @@ string_dict_data = """{
   "preprocess_data_only": "true"
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.0",command="python",args=list_args)
+function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.0",command="python")
  ```
  the explanation of the list_args second argument  is explained as follow:
 
@@ -72,15 +72,16 @@ The process requires a volume to be createn on Kubernetes. Create a volume (with
 
   ```Python
  run = function.run(action="job",
-  volumes=[{
-    "volume_type": "persistent_volume_claim",
-    "name": "volume-sentinel",
-    "mount_path": "/files",
-    "spec": {
-        "claim_name": "test-sentinel"
-    }}],
-  secrets=["CDSETOOL_ESA_USER", "CDSETOOL_ESA_PASSWORD"]
-)
+        secrets=["CDSETOOL_ESA_USER","CDSETOOL_ESA_PASSWORD"],
+        fsGroup='8877',
+        args=list_args,           
+        volumes=[{
+            "volume_type": "persistent_volume_claim",            
+            "name": "volume-sentinel", # this name has to be equal to the name of the volume created in krm
+            "mount_path": "/files",
+            "spec": {
+                "claim_name": "volume-sentinel"
+  }}])
  ```
 
  One complete, the run creates the data at the specified path. 
