@@ -5,7 +5,7 @@
 - ```ai```: remote sensing
 - ```domain```: generic
 
-The tool provides a wrapper for the Sentinel download and preprocessing routing for the integration with the AIxPA platform. The tool allows for performing the ESA Sentinel images download and preprocessing as a Kubernetes Job (container) saving the data to the S3 datalake.
+The tool provides a wrapper for the Sentinel download and preprocessing routine for the integration with the AIxPA platform. The tool allows for performing the ESA Sentinel images download and preprocessing as a Kubernetes Job (container) saving the data to the S3 datalake.
 
 ## Usage
 
