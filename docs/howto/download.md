@@ -50,7 +50,7 @@ string_dict_data = """{
   "preprocess_data_only": "true"
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.0",command="python")
+function = proj.new_function("downoad_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.0",command="python")
  ```
  the explanation of the list_args second argument  is explained as follow:
 
@@ -73,12 +73,12 @@ The process requires a volume to be createn on Kubernetes. Create a volume (with
   ```Python
  run = function.run(action="job",
         secrets=["CDSETOOL_ESA_USER","CDSETOOL_ESA_PASSWORD"],
-        fsGroup='8877',
+        fs_group='8877',
         args=list_args,           
         volumes=[{
             "volume_type": "persistent_volume_claim",            
             "name": "volume-sentinel", # this name has to be equal to the name of the volume created in krm
-            "mount_path": "/files",
+            "mount_path": "/app/files,
             "spec": {
                 "claim_name": "volume-sentinel"
   }}])

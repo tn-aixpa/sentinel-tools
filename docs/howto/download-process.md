@@ -84,10 +84,11 @@ The process requires a volume to be createn on Kubernetes. Create a volume (with
 
   ```Python
  run = function.run(action="job",
+  fs_group='8877',
   volumes=[{
     "volume_type": "persistent_volume_claim",
     "name": "volume-sentinel",
-    "mount_path": "/files",
+    "mount_path": "/app/files",
     "spec": {
         "claim_name": "test-sentinel"
     }}],
