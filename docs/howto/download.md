@@ -78,7 +78,7 @@ The process requires a volume to be createn on Kubernetes. Create a volume (with
         volumes=[{
             "volume_type": "persistent_volume_claim",            
             "name": "volume-sentinel", # this name has to be equal to the name of the volume created in krm
-            "mount_path": "/app/files,
+            "mount_path": "/app/files",
             "spec": {
                 "claim_name": "volume-sentinel"
   }}])
