@@ -19,6 +19,9 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
     #iterate over bursts items
     features_list = []
     iter_ = 0
+
+    print("*** download parameters ***")
+    print(downl_params)
     for index,item in df.iterrows():
         collection = downl_params.satelliteType
         search_terms = {
