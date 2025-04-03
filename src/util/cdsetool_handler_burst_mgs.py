@@ -39,10 +39,12 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
             search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
         if downl_params.sentinel1Param.processingLevel:
             search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
-        # if downl_params.cloudCover:
-        #     search_terms['cloudCover'] = downl_params.cloudCover
+        if downl_params.cloudCover:
+            search_terms['cloudCover'] = downl_params.cloudCover
 
-        # print(search_terms)
+        print("satellite type (collection) - ", downl_params.satelliteType)
+        print("*** search terms ***")
+        print(search_terms)
         #query products features
         features = query_features(collection, search_terms)
         for f in features:
@@ -83,7 +85,7 @@ def get_query_sentinel2(df, downl_params: InputSentinelClass):
     #iterate over mgrs tile items
     features_list = []
     for index,item in df.iterrows():
-      collection = 'Sentinel2'
+      collection = downl_params.satelliteType
       search_terms = {
         'startDate':        qdate1,
         'completionDate':   qdate2,
@@ -94,6 +96,11 @@ def get_query_sentinel2(df, downl_params: InputSentinelClass):
       }
       if downl_params.cloudCover:
         search_terms['cloudCover'] = downl_params.cloudCover
+        
+      print("satellite type (collection) - ", downl_params.satelliteType)
+      print("*** search terms ***")
+      print(search_terms)
+           
       #query products features
       features = query_features(collection, search_terms)
       for f in features:
