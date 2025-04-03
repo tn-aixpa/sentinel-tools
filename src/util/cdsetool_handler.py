@@ -44,8 +44,8 @@ def download(
             obj_for_query['orbitDirection'] = orbitDirection
         if relativeOrbitNumber:
             obj_for_query['relativeOrbitNumber'] = relativeOrbitNumber
-        if cloudCover:
-            obj_for_query['cloudCover'] = cloudCover
+        # if cloudCover:
+            # obj_for_query['cloudCover'] = cloudCover
         features = query_features(satelliteType,obj_for_query)
 
         # 'orbitDirection':       item['Orbit pass'],
