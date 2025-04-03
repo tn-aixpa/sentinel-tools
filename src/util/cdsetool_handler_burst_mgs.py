@@ -20,8 +20,6 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
     features_list = []
     iter_ = 0
 
-    print("*** download parameters ***")
-    print(downl_params)
     for index,item in df.iterrows():
         collection = downl_params.satelliteType
         search_terms = {
@@ -97,7 +95,6 @@ def get_query_sentinel2(df, downl_params: InputSentinelClass):
       if downl_params.cloudCover:
         search_terms['cloudCover'] = downl_params.cloudCover
         
-      print("satellite type (collection) - ", downl_params.satelliteType)
       print("*** search terms ***")
       print(search_terms)
            
