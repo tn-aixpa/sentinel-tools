@@ -1,6 +1,6 @@
-SENTINEL1 = "Sentinel1"
+SENTINEL1 = "sentinel1"
 SENTINEL1_GRD = "sentinel-1-grd"
-SENTINEL2 = "Sentinel2"
+SENTINEL2 = "sentinel2"
 SENTINEL2_GRD = "sentinel-2-grd"
 
 class Sentinel1Parameters():
@@ -111,13 +111,13 @@ class InputSentinelClass():
         if 'satelliteParams' in json_input:
             params = json_input['satelliteParams']
             if 'satelliteType' in params:
-                self.satelliteType = params['satelliteType'].capitalize()
+                self.satelliteType = params['satelliteType']#.capitalize()
             else:
                 raise Exception("There is no satelliteType in the params please specify for Sentinel1 or Sentinel2")
-            if (self.satelliteType in (SENTINEL1, SENTINEL1_GRD):
+            if (self.satelliteType == SENTINEL1 or self.satelliteType == SENTINEL1_GRD):
                 self.sentinel1Param = Sentinel1Parameters()
                 self.sentinel1Param.fromJson(params)
-            elif (self.satelliteType in (SENTINEL2, SENTINEL2_GRD):
+            elif (self.satelliteType == SENTINEL2 or self.satelliteType == SENTINEL2_GRD):
                 self.sentinel2Param = Sentinel2Parameters()
                 self.sentinel2Param.fromJson(params)
             else:
