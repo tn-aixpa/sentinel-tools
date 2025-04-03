@@ -2,4 +2,4 @@ cdsetool==0.2.13
 geopandas==1.0.1
 shapely==2.0.6
 geojson==3.1.0
-digitalhub==0.10.0b7
+digitalhub==0.10.1
