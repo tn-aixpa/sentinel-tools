@@ -40,7 +40,7 @@ string_dict_data = """{
   "preprocess_data_only": "true"
   }"""
 list_args =  ["main.py",string_dict_data]
-function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.0",command="python")
+function = proj.new_function("donwload_images",kind="container",image="ghcr.io/tn-aixpa/sentinel-tools:0.10.1",command="python")
  ```
  the explanation of the list_args second argument  is explained as follow:
  - satelliteParams: is a json that takes two different values :
