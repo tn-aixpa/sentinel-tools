@@ -5,3 +5,4 @@ data/*
 .env
 set_env.py
 *.pyc
+.vscode
