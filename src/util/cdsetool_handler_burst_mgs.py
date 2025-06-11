@@ -40,9 +40,9 @@ def get_query_sentinel1(df,downl_params: InputSentinelClass):
             search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
         if downl_params.sentinel1Param.processingLevel:
             search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
-        if downl_params.orbitDirection:
+        if downl_params.sentinel1Param.orbitDirection:
             search_terms['orbitDirection'] = downl_params.sentinel1Param.orbitDirection
-        if downl_params.relativeOrbitNumber:
+        if downl_params.sentinel1Param.relativeOrbitNumber:
             search_terms['relativeOrbitNumber'] = int(downl_params.sentinel1Param.relativeOrbitNumber)
 
         print("*** search terms ***")
