@@ -45,6 +45,7 @@ def coherence_snap_cmds(df, products_dir, output_dir):
           archive = zipfile.ZipFile(prod_fpath, 'r')
         except:
           print('Product: {} does not exists, cannot read annotation file'.format(prod_fpath))
+          continue
         #build annotation .xml fullpath
         filename = product['properties']['title']
         annotation = 'annotation/s1[ab]-iw{}'.format(subswath) + '-slc-vh-(\d{8})t(\d{6})-(\d{8})t(\d{6})-(\d{6})-(.{6})-(\d{3}).xml'
