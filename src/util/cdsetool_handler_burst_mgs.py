@@ -98,6 +98,11 @@ def get_query_sentinel2(df, downl_params: InputSentinelClass):
       }
       if downl_params.cloudCover:
         search_terms['cloudCover'] = downl_params.cloudCover
+
+      if downl_params.sentinel2Param.orbitDirection:
+            search_terms['orbitDirection'] = downl_params.sentinel2Param.orbitDirection
+      if downl_params.sentinel2Param.relativeOrbitNumber:
+            search_terms['relativeOrbitNumber'] = int(downl_params.sentinel2Param.relativeOrbitNumber)
         
       print("*** search terms ***")
       print(search_terms)
