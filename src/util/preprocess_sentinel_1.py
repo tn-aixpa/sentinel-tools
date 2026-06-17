@@ -24,6 +24,14 @@ def coherence_snap_cmds(df, products_dir, output_dir):
     #get SNAP cmd lines for each burst
     snap = {}
     snap_graph_path = get_path_snap_coherence()
+    # Handle empty or unexpected query outputs gracefully.
+    if df is None or (hasattr(df, "empty") and df.empty):
+      print("No Sentinel-1 products available for preprocessing")
+      return snap
+    if not hasattr(df, "columns") or 'Name' not in df.columns:
+      print("Skipping Sentinel-1 preprocessing: missing required 'Name' column")
+      return snap
+
     # 'Name' is the only required field in df
     #collect all products with the same 'Name' (e.g., 015_030341_IW3: orbit number, burst ID, swath number)
     names = df['Name'].unique()
