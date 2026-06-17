@@ -1,4 +1,4 @@
-cdsetool==0.2.13
+cdsetool==0.3.1
 geopandas==1.0.1
 shapely==2.0.6
 geojson==3.1.0
