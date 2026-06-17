@@ -415,12 +415,12 @@ class FileStatusMonitor(StatusMonitor):
 
 
 # Backward-compatible wrappers used in this project.
-# def get_query_sentinel1(df, downl_params: InputSentinelClass):
-#     return get_query_sentinel_1(df, downl_params.startDate, downl_params.endDate)
+def get_query_sentinel1(df, downl_params: InputSentinelClass):
+    return get_query_sentinel_1(df, downl_params)
 
 
-# def get_query_sentinel2(df, downl_params: InputSentinelClass):
-#     return get_query_sentinel_2(df, downl_params.startDate, downl_params.endDate)
+def get_query_sentinel2(df, downl_params: InputSentinelClass):
+    return get_query_sentinel_2(df, downl_params)
 
 
 def download_products(df, products_dir, username: str, password: str, tmp_path_same_folder_dwl: bool):
