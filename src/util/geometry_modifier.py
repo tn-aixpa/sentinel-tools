@@ -4,10 +4,7 @@ def get_bursts(geom_path: str, burst_path: str):
     Returns a GeoDataFrame of the bursts footprints that intersect with the input geometry with associated SAR-MPC Burst ID maps metadata
 
     """
-    import geopandas as gpd    
-    #centroid in EPSG:4326 is not accurate, but accurate enough for point-based query
-    import warnings
-    warnings.simplefilter(action='ignore',category=UserWarning)
+    import geopandas as gpd
     
     #read input files
     print('Reading input geometry: {}'.format(geom_path))
@@ -26,8 +23,13 @@ def get_bursts(geom_path: str, burst_path: str):
         pass
     df = df.reset_index(drop=True)
     print('Converting query coordinates...')
-    #get center coordinates and format for esa query: invert lat/long and build string 
-    df['esaquerypoint'] = df.centroid.apply(lambda point: "POINT({} {})".format(point.x, point.y))
+    #get center coordinates with proper CRS handling: reproject to Web Mercator for accurate centroid computation
+    if df.crs and df.crs.is_geographic:
+        df_proj = df.to_crs("EPSG:3857")
+        centroids = df_proj.centroid.to_crs(df.crs)
+    else:
+        centroids = df.centroid
+    df['esaquerypoint'] = centroids.apply(lambda point: "POINT({} {})".format(point.x, point.y))
     # df.to_file('data/dataframe.shp') #TODO remove this later
     # input("....")  
     return df
@@ -55,5 +57,11 @@ def get_mgrs(geom_path: str, mgrs_path: str):
     #get elements
     df = mgrs_df.loc[idx==True].copy()
     df.reset_index(inplace=True)
-    df['esaquerypoint'] = df.centroid.apply(lambda point: "POINT({} {})".format(point.x, point.y))    
+    #get center coordinates with proper CRS handling: reproject to Web Mercator for accurate centroid computation
+    if df.crs and df.crs.is_geographic:
+        df_proj = df.to_crs("EPSG:3857")
+        centroids = df_proj.centroid.to_crs(df.crs)
+    else:
+        centroids = df.centroid
+    df['esaquerypoint'] = centroids.apply(lambda point: "POINT({} {})".format(point.x, point.y))
     return df
