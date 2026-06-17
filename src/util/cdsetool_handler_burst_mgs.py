@@ -112,15 +112,14 @@ def download_products_for_dates(
 
 def get_query_sentinel_1(
     df,
-    startDate: str,
-    endDate: str,
+    downl_params: InputSentinelClass,
     credentials: Any = None,
     proxy: Any = None,
 ):
     del credentials
     del proxy
 
-    qdate1, qdate2 = _format_query_bounds(startDate, endDate)
+    qdate1, qdate2 = _format_query_bounds(downl_params.startDate, downl_params.endDate)
     features_list = []
 
     for _, item in df.iterrows():
@@ -135,6 +134,20 @@ def get_query_sentinel_1(
             "processingLevel": "LEVEL1",
             "timeliness": "NRT-3h",
         }
+        
+        if downl_params.sentinel1Param.productType:
+            search_terms['productType'] = downl_params.sentinel1Param.productType
+        if downl_params.sentinel1Param.sensorMode:
+            search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
+        if downl_params.sentinel1Param.processingLevel:
+            search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
+        if downl_params.sentinel1Param.orbitDirection:
+            search_terms['orbitDirection'] = downl_params.sentinel1Param.orbitDirection
+        if downl_params.sentinel1Param.relativeOrbitNumber:
+            search_terms['relativeOrbitNumber'] = int(downl_params.sentinel1Param.relativeOrbitNumber)
+
+        print("*** search terms ***")
+        print(search_terms)
 
         try:
             features = query_features(collection, search_terms, options={"expand_attributes": True})
@@ -208,15 +221,14 @@ def download_product_cdse(
 
 def get_query_sentinel_2(
     df,
-    date1: str,
-    date2: str,
+    downl_params: InputSentinelClass,
     credentials: Any = None,
     proxy: Any = None,
 ):
     del credentials
     del proxy
 
-    qdate1, qdate2 = _format_query_bounds(date1, date2)
+    qdate1, qdate2 = _format_query_bounds(downl_params.startDate, downl_params.endDate)
     features_list = []
 
     for _, item in df.iterrows():
@@ -228,6 +240,16 @@ def get_query_sentinel_2(
             "tileId": item["Name"],
             "geometry": item["esaquerypoint"],
         }
+        
+        if downl_params.cloudCover:
+            search_terms['cloudCover'] = downl_params.cloudCover
+        if downl_params.sentinel2Param.orbitDirection:
+            search_terms['orbitDirection'] = downl_params.sentinel2Param.orbitDirection
+        if downl_params.sentinel2Param.relativeOrbitNumber:
+            search_terms['relativeOrbitNumber'] = int(downl_params.sentinel2Param.relativeOrbitNumber)
+        
+        print("*** search terms ***")
+        print(search_terms)
 
         try:
             features = query_features(collection, search_terms, options={"expand_attributes": True})
@@ -247,11 +269,12 @@ def get_query_sentinel_2(
             f["startDateStr"] = f["ContentDate"]["Start"][:10]
             f["updatedStr"] = f["ModificationDate"]
             f["sector"] = "T{}_R{:03d}".format(f["tileId"], f["relativeOrbitNumber"])
-            f["Name"] = f["sector"]
+            # f["Name"] = f["sector"]
             if "geometry" not in f:
                 f["geometry"] = f["GeoFootprint"]
             f["properties"] = attributes
             f["id"] = f["Id"]
+            f['Name'] = 'T{}_R{:03d}'.format(f['tileId'],f['relativeOrbitNumber'])
             features_list.append(f)
 
     out_df = pd.DataFrame.from_dict(features_list)
@@ -392,12 +415,12 @@ class FileStatusMonitor(StatusMonitor):
 
 
 # Backward-compatible wrappers used in this project.
-def get_query_sentinel1(df, downl_params: InputSentinelClass):
-    return get_query_sentinel_1(df, downl_params.startDate, downl_params.endDate)
+# def get_query_sentinel1(df, downl_params: InputSentinelClass):
+#     return get_query_sentinel_1(df, downl_params.startDate, downl_params.endDate)
 
 
-def get_query_sentinel2(df, downl_params: InputSentinelClass):
-    return get_query_sentinel_2(df, downl_params.startDate, downl_params.endDate)
+# def get_query_sentinel2(df, downl_params: InputSentinelClass):
+#     return get_query_sentinel_2(df, downl_params.startDate, downl_params.endDate)
 
 
 def download_products(df, products_dir, username: str, password: str, tmp_path_same_folder_dwl: bool):
