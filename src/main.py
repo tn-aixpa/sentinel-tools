@@ -1,3 +1,4 @@
+import os
 import sys
 from util.cdsetool_handler_burst_mgs import get_query_sentinel1,download_products, get_query_sentinel2
 from util.command_execution import CommandExecution
@@ -74,7 +75,12 @@ if __name__ == "__main__":
     else:
         currentpath_files = DOWNLOAD_PATH
         print(f"Logging all data (downloaded + preporcess) from {currentpath_files}")
-    
+        
+        
+    for name in os.listdir(currentpath_files):
+        full = os.path.join(currentpath_files, name)
+        print("[DIR] " + name if os.path.isdir(full) else "[FILE] " + name)
+        
     load_all_artifacts_from_custom(currentpath_files,artifact_name=download_parameters.artifact_name)
    
     print("Finished!")
