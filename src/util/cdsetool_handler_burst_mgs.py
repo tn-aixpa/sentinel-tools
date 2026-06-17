@@ -133,6 +133,7 @@ def get_query_sentinel_1(
             "geometry": item["esaquerypoint"],
             "processingLevel": "LEVEL1",
             "timeliness": "NRT-3h",
+            # "sortOrder": "asc",
         }
         
         if downl_params.sentinel1Param.productType:
@@ -145,7 +146,8 @@ def get_query_sentinel_1(
         if downl_params.sentinel1Param.orbitDirection:
             search_terms['orbitDirection'] = downl_params.sentinel1Param.orbitDirection
         if downl_params.sentinel1Param.relativeOrbitNumber:
-            search_terms['relativeOrbitNumber'] = int(downl_params.sentinel1Param.relativeOrbitNumber)
+            # CDSE exact-match filter uses relativeOrbitNumberEq; relativeOrbitNumber expects [min,max].
+            search_terms['relativeOrbitNumberEq'] = int(downl_params.sentinel1Param.relativeOrbitNumber)
 
         print("*** search terms ***")
         print(search_terms)
@@ -247,7 +249,8 @@ def get_query_sentinel_2(
         if downl_params.sentinel2Param.orbitDirection:
             search_terms['orbitDirection'] = downl_params.sentinel2Param.orbitDirection
         if downl_params.sentinel2Param.relativeOrbitNumber:
-            search_terms['relativeOrbitNumber'] = int(downl_params.sentinel2Param.relativeOrbitNumber)
+            # CDSE exact-match filter uses relativeOrbitNumberEq; relativeOrbitNumber expects [min,max].
+            search_terms['relativeOrbitNumberEq'] = int(downl_params.sentinel2Param.relativeOrbitNumber)
         
         print("*** search terms ***")
         print(search_terms)
