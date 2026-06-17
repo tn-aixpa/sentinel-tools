@@ -55,4 +55,5 @@ def get_mgrs(geom_path: str, mgrs_path: str):
     #get elements
     df = mgrs_df.loc[idx==True].copy()
     df.reset_index(inplace=True)
+    df['esaquerypoint'] = df.centroid.apply(lambda point: "POINT({} {})".format(point.x, point.y))    
     return df
