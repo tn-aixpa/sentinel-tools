@@ -138,7 +138,8 @@ def get_query_sentinel_1(
         if downl_params.sentinel1Param.productType:
             search_terms['productType'] = downl_params.sentinel1Param.productType
         if downl_params.sentinel1Param.sensorMode:
-            search_terms['sensorMode'] = downl_params.sentinel1Param.sensorMode
+            # CDSE expects 'operationalMode' for Sentinel-1 queries.
+            search_terms['operationalMode'] = downl_params.sentinel1Param.sensorMode
         if downl_params.sentinel1Param.processingLevel:
             search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
         if downl_params.sentinel1Param.orbitDirection:
@@ -274,7 +275,7 @@ def get_query_sentinel_2(
                 f["geometry"] = f["GeoFootprint"]
             f["properties"] = attributes
             f["id"] = f["Id"]
-            f['Name'] = 'T{}_R{:03d}'.format(f['tileId'],f['relativeOrbitNumber'])
+            # Keep original CDSE product Name (SAFE archive base name) so SNAP can read downloaded files.
             features_list.append(f)
 
     out_df = pd.DataFrame.from_dict(features_list)
