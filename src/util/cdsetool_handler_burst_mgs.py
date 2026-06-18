@@ -170,7 +170,7 @@ def get_query_sentinel_1(
             f["startDateStr"] = f["ContentDate"]["Start"][:10]
             f["updatedStr"] = f["ModificationDate"]
             f["sector"] = item["Name"]
-            f["Name"] = item["Name"]
+            f["burstName"] = item["Name"]
             f["burstGeometry"] = list(item["geometry"].exterior.coords)
             if "Burst ID" not in f and "Burst ID" in item:
                 f["BurstID"] = item["Burst ID"]
@@ -215,8 +215,38 @@ def download_product_cdse(
         print("No products to download")
         return
 
+    # Avoid duplicate download targets across retries or equivalent products.
     df = df.drop_duplicates(subset="id", inplace=False)
+    if "Name" in df.columns:
+        df = df.drop_duplicates(subset="Name", inplace=False)
+
     features_list = df.to_dict(orient="records")
+    filtered_features = []
+    skipped_existing = 0
+    for feature in features_list:
+        feature_name = str(feature.get("Name") or "").strip()
+        if not feature_name:
+            filtered_features.append(feature)
+            continue
+
+        candidate_paths = [
+            os.path.join(products_dir, feature_name),
+            os.path.join(products_dir, f"{feature_name}.zip"),
+        ]
+        if any(os.path.exists(candidate_path) for candidate_path in candidate_paths):
+            skipped_existing += 1
+            continue
+
+        filtered_features.append(feature)
+
+    if skipped_existing:
+        print(f"Skipping {skipped_existing} already downloaded products")
+
+    features_list = filtered_features
+    if not features_list:
+        print("No new products to download")
+        return
+
     credentials = Credentials(username, password)
 
     options = {"credentials": credentials, "concurrency": 4, "monitor": FileStatusMonitor()}
