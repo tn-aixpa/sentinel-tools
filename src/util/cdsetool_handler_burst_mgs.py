@@ -121,6 +121,7 @@ def get_query_sentinel_1(
 
     qdate1, qdate2 = _format_query_bounds(downl_params.startDate, downl_params.endDate)
     features_list = []
+    offline_products_count = 0
 
     for _, item in df.iterrows():
         collection = "SENTINEL-1"
@@ -132,7 +133,6 @@ def get_query_sentinel_1(
             "relativeOrbitNumberEq": int(item["Rel. orbit number"]),
             "geometry": item["esaquerypoint"],
             "processingLevel": "LEVEL1",
-            "timeliness": "NRT-3h",
             # "sortOrder": "asc",
         }
         
@@ -160,6 +160,7 @@ def get_query_sentinel_1(
 
         for f in features:
             if not f["Online"]:
+                offline_products_count += 1
                 continue
 
             attributes = {x["Name"]: x["Value"] for x in f["Attributes"]}
@@ -183,7 +184,15 @@ def get_query_sentinel_1(
 
     out_df = pd.DataFrame.from_dict(features_list)
     if out_df.empty:
-        print("No Sentinel-1 products found for the given query")
+        print(
+            "No Sentinel-1 products found for the given query "
+            f"(startDate={qdate1}, endDate={qdate2}, sectors={len(df)})."
+        )
+        if offline_products_count > 0:
+            print(
+                "Found Sentinel-1 matches, but all are currently offline: "
+                f"{offline_products_count} products."
+            )
         return out_df, features_list
 
     out_df = out_df.sort_values("startDateStr", ascending=True)
