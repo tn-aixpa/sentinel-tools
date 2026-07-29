@@ -1,5 +1,6 @@
 
 import os
+import uuid
 import digitalhub as dh
 def list_artifact(path:str):
     return os.listdir(path)
@@ -13,7 +14,10 @@ def upload_artifact(artifact_name = "",
     # Crea progetto, togliere local quando useremo backend
     project = dh.get_or_create_project(project_name) # , local=True for testing in local
 
-    project.log_artifact(name=artifact_name, kind="artifact", source=src_path)
+    # project.log_artifact(name=artifact_name, kind="artifact", source=src_path)
+    artifact_id = str(uuid.uuid4())
+    artifact = project.new_artifact(name=artifact_name, id=artifact_id, kind="artifact", path=os.environ["DHCORE_DEFAULT_FILES_STORE"] + "/" + project_name + "/artifacts/" + artifact_name + '/' + artifact_id + "/")
+    artifact.upload(src_path)
    
 def load_all_artifacts_from_custom(path_current_data,artifact_name):
     project_name= os.environ["PROJECT_NAME"]

@@ -27,6 +27,7 @@ if __name__ == "__main__":
     # set_environment_variable_username_password("","") # TODO remove this and take just the user,password from env
     user,password = get_environment_variable_username_password()
     download_parameters = InputSentinelClass(json_input_download,user=user,password=password)
+    print(f"Geometry: {download_parameters.geometry}")
     if download_parameters.area_sampling:
         """
         Here are executed also the preprocessing of the images
