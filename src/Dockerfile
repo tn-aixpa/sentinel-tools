@@ -1,6 +1,6 @@
 # FROM python:3.9
 # FROM mundialis/esa-snap:latest
-FROM python:3.10
+FROM python:3.9
 WORKDIR /app
 COPY main.py .
 #COPY test.py .
