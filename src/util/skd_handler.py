@@ -17,7 +17,12 @@ def upload_artifact(artifact_name = "",
     # project.log_artifact(name=artifact_name, kind="artifact", source=src_path)
     artifact_id = str(uuid.uuid4())
     artifact = project.new_artifact(name=artifact_name, id=artifact_id, kind="artifact", path=os.environ["DHCORE_DEFAULT_FILES_STORE"] + "/" + project_name + "/artifacts/" + artifact_name + '/' + artifact_id + "/")
-    artifact.upload(src_path)
+    try:
+        artifact.upload(src_path)
+    except AttributeError as e:
+        # digitalhub post-upload refresh may fail with 'str' has no attribute 'get'
+        # when files_info contains strings instead of dicts; upload itself succeeds
+        print(f"Warning: post-upload refresh failed (upload completed): {e}")
    
 def load_all_artifacts_from_custom(path_current_data,artifact_name):
     project_name= os.environ["PROJECT_NAME"]
