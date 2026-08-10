@@ -1,6 +1,6 @@
 # FROM python:3.9
 # FROM mundialis/esa-snap:latest
-FROM python:3.9
+FROM python:3.10
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY main.py .
