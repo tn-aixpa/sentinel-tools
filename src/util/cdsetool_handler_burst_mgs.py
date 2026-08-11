@@ -193,7 +193,7 @@ def download_product_cdse(
     df = df.drop_duplicates(subset="id", inplace=False)
     features_list = df.to_dict(orient="records")
     # skip products whose zip file is already present
-    features_list = [f for f in features_list if not os.path.exists(os.path.join(products_dir, f["Name"] + ".zip"))]
+    features_list = [f for f in features_list if not os.path.exists(os.path.join(products_dir, f["title"] + ".zip"))]
     credentials = Credentials(username, password)
 
     options = {"credentials": credentials, "concurrency": 4, "monitor": FileStatusMonitor()}
@@ -252,7 +252,6 @@ def get_query_sentinel_2(
             f["startDateStr"] = f["ContentDate"]["Start"][:10]
             f["updatedStr"] = f["ModificationDate"]
             f["sector"] = "T{}_R{:03d}".format(f["tileId"], f["relativeOrbitNumber"])
-            f["Name"] = f["sector"]
             if "geometry" not in f:
                 f["geometry"] = f["GeoFootprint"]
             f["properties"] = attributes
