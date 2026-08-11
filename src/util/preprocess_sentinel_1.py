@@ -21,20 +21,19 @@ def coherence_snap_cmds(df, products_dir, output_dir):
     import re
     import os
 
-    if df.empty or 'Name' not in df.columns:
+    if df.empty or 'sector' not in df.columns:
         print("No products to process, skipping SNAP command generation")
         return {}
 
     #get SNAP cmd lines for each burst
     snap = {}
     snap_graph_path = get_path_snap_coherence()
-    # 'Name' is the only required field in df
-    #collect all products with the same 'Name' (e.g., 015_030341_IW3: orbit number, burst ID, swath number)
-    names = df['Name'].unique()
-    #iterate over 'Name' unique instances
+    #collect all products with the same sector (e.g., 015_030341_IW3: orbit number, burst ID, swath number)
+    names = df['sector'].unique()
+    #iterate over sector unique instances
     for name in names:
-      #get products for this name
-      df_temp = df.loc[df['Name']==name]
+      #get products for this sector
+      df_temp = df.loc[df['sector']==name]
       #initialize arrays
       subswath = name[-1]
       idx = []

@@ -153,7 +153,6 @@ def get_query_sentinel_1(
             f["startDateStr"] = f["ContentDate"]["Start"][:10]
             f["updatedStr"] = f["ModificationDate"]
             f["sector"] = item["Name"]
-            f["Name"] = item["Name"]
             f["burstGeometry"] = list(item["geometry"].exterior.coords)
             if "Burst ID" not in f and "Burst ID" in item:
                 f["BurstID"] = item["Burst ID"]
