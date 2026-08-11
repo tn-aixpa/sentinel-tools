@@ -192,6 +192,8 @@ def download_product_cdse(
 
     df = df.drop_duplicates(subset="id", inplace=False)
     features_list = df.to_dict(orient="records")
+    # skip products whose zip file is already present
+    features_list = [f for f in features_list if not os.path.exists(os.path.join(products_dir, f["Name"] + ".zip"))]
     credentials = Credentials(username, password)
 
     options = {"credentials": credentials, "concurrency": 4, "monitor": FileStatusMonitor()}
@@ -199,6 +201,9 @@ def download_product_cdse(
         options["tmpdir"] = products_dir
 
     print("Starting download of %s products into %s" % (len(features_list), products_dir))
+    if not features_list:
+        print("All products already downloaded, skipping")
+        return
     res = download_features(features_list, products_dir, options)
     for feature_id in res:
         print("feature %s downloaded" % feature_id)
