@@ -112,16 +112,16 @@ def download_products_for_dates(
 
 def get_query_sentinel_1(
     df,
-    startDate: str,
-    endDate: str,
+    downl_params: InputSentinelClass,
     credentials: Any = None,
     proxy: Any = None,
 ):
     del credentials
     del proxy
 
-    qdate1, qdate2 = _format_query_bounds(startDate, endDate)
+    qdate1, qdate2 = _format_query_bounds(downl_params.startDate, downl_params.endDate)
     features_list = []
+    offline_products_count = 0
 
     for _, item in df.iterrows():
         collection = "SENTINEL-1"
@@ -133,8 +133,24 @@ def get_query_sentinel_1(
             "relativeOrbitNumberEq": int(item["Rel. orbit number"]),
             "geometry": item["esaquerypoint"],
             "processingLevel": "LEVEL1",
-            "timeliness": "NRT-3h",
+            # "sortOrder": "asc",
         }
+        
+        if downl_params.sentinel1Param.productType:
+            search_terms['productType'] = downl_params.sentinel1Param.productType
+        if downl_params.sentinel1Param.sensorMode:
+            # CDSE expects 'operationalMode' for Sentinel-1 queries.
+            search_terms['operationalMode'] = downl_params.sentinel1Param.sensorMode
+        if downl_params.sentinel1Param.processingLevel:
+            search_terms['processingLevel'] = downl_params.sentinel1Param.processingLevel
+        if downl_params.sentinel1Param.orbitDirection:
+            search_terms['orbitDirection'] = downl_params.sentinel1Param.orbitDirection
+        if downl_params.sentinel1Param.relativeOrbitNumber:
+            # CDSE exact-match filter uses relativeOrbitNumberEq; relativeOrbitNumber expects [min,max].
+            search_terms['relativeOrbitNumberEq'] = int(downl_params.sentinel1Param.relativeOrbitNumber)
+
+        print("*** search terms ***")
+        print(search_terms)
 
         try:
             features = query_features(collection, search_terms, options={"expand_attributes": True})
@@ -144,6 +160,7 @@ def get_query_sentinel_1(
 
         for f in features:
             if not f["Online"]:
+                offline_products_count += 1
                 continue
 
             attributes = {x["Name"]: x["Value"] for x in f["Attributes"]}
@@ -153,6 +170,7 @@ def get_query_sentinel_1(
             f["startDateStr"] = f["ContentDate"]["Start"][:10]
             f["updatedStr"] = f["ModificationDate"]
             f["sector"] = item["Name"]
+            f["burstName"] = item["Name"]
             f["burstGeometry"] = list(item["geometry"].exterior.coords)
             if "Burst ID" not in f and "Burst ID" in item:
                 f["BurstID"] = item["Burst ID"]
@@ -166,7 +184,15 @@ def get_query_sentinel_1(
 
     out_df = pd.DataFrame.from_dict(features_list)
     if out_df.empty:
-        print("No Sentinel-1 products found for the given query")
+        print(
+            "No Sentinel-1 products found for the given query "
+            f"(startDate={qdate1}, endDate={qdate2}, sectors={len(df)})."
+        )
+        if offline_products_count > 0:
+            print(
+                "Found Sentinel-1 matches, but all are currently offline: "
+                f"{offline_products_count} products."
+            )
         return out_df, features_list
 
     out_df = out_df.sort_values("startDateStr", ascending=True)
@@ -189,10 +215,38 @@ def download_product_cdse(
         print("No products to download")
         return
 
+    # Avoid duplicate download targets across retries or equivalent products.
     df = df.drop_duplicates(subset="id", inplace=False)
+    if "Name" in df.columns:
+        df = df.drop_duplicates(subset="Name", inplace=False)
+
     features_list = df.to_dict(orient="records")
-    # skip products whose zip file is already present
-    features_list = [f for f in features_list if not os.path.exists(os.path.join(products_dir, f["title"] + ".zip"))]
+    filtered_features = []
+    skipped_existing = 0
+    for feature in features_list:
+        feature_name = str(feature.get("Name") or "").strip()
+        if not feature_name:
+            filtered_features.append(feature)
+            continue
+
+        candidate_paths = [
+            os.path.join(products_dir, feature_name),
+            os.path.join(products_dir, f"{feature_name}.zip"),
+        ]
+        if any(os.path.exists(candidate_path) for candidate_path in candidate_paths):
+            skipped_existing += 1
+            continue
+
+        filtered_features.append(feature)
+
+    if skipped_existing:
+        print(f"Skipping {skipped_existing} already downloaded products")
+
+    features_list = filtered_features
+    if not features_list:
+        print("No new products to download")
+        return
+
     credentials = Credentials(username, password)
 
     options = {"credentials": credentials, "concurrency": 4, "monitor": FileStatusMonitor()}
@@ -200,9 +254,6 @@ def download_product_cdse(
         options["tmpdir"] = products_dir
 
     print("Starting download of %s products into %s" % (len(features_list), products_dir))
-    if not features_list:
-        print("All products already downloaded, skipping")
-        return
     res = download_features(features_list, products_dir, options)
     for feature_id in res:
         print("feature %s downloaded" % feature_id)
@@ -212,15 +263,14 @@ def download_product_cdse(
 
 def get_query_sentinel_2(
     df,
-    date1: str,
-    date2: str,
+    downl_params: InputSentinelClass,
     credentials: Any = None,
     proxy: Any = None,
 ):
     del credentials
     del proxy
 
-    qdate1, qdate2 = _format_query_bounds(date1, date2)
+    qdate1, qdate2 = _format_query_bounds(downl_params.startDate, downl_params.endDate)
     features_list = []
 
     for _, item in df.iterrows():
@@ -232,6 +282,17 @@ def get_query_sentinel_2(
             "tileId": item["Name"],
             "geometry": item["esaquerypoint"],
         }
+        
+        if downl_params.cloudCover:
+            search_terms['cloudCover'] = downl_params.cloudCover
+        if downl_params.sentinel2Param.orbitDirection:
+            search_terms['orbitDirection'] = downl_params.sentinel2Param.orbitDirection
+        if downl_params.sentinel2Param.relativeOrbitNumber:
+            # CDSE exact-match filter uses relativeOrbitNumberEq; relativeOrbitNumber expects [min,max].
+            search_terms['relativeOrbitNumberEq'] = int(downl_params.sentinel2Param.relativeOrbitNumber)
+        
+        print("*** search terms ***")
+        print(search_terms)
 
         try:
             features = query_features(collection, search_terms, options={"expand_attributes": True})
@@ -251,10 +312,12 @@ def get_query_sentinel_2(
             f["startDateStr"] = f["ContentDate"]["Start"][:10]
             f["updatedStr"] = f["ModificationDate"]
             f["sector"] = "T{}_R{:03d}".format(f["tileId"], f["relativeOrbitNumber"])
+            # f["Name"] = f["sector"]
             if "geometry" not in f:
                 f["geometry"] = f["GeoFootprint"]
             f["properties"] = attributes
             f["id"] = f["Id"]
+            # Keep original CDSE product Name (SAFE archive base name) so SNAP can read downloaded files.
             features_list.append(f)
 
     out_df = pd.DataFrame.from_dict(features_list)
@@ -396,11 +459,11 @@ class FileStatusMonitor(StatusMonitor):
 
 # Backward-compatible wrappers used in this project.
 def get_query_sentinel1(df, downl_params: InputSentinelClass):
-    return get_query_sentinel_1(df, downl_params.startDate, downl_params.endDate)
+    return get_query_sentinel_1(df, downl_params)
 
 
 def get_query_sentinel2(df, downl_params: InputSentinelClass):
-    return get_query_sentinel_2(df, downl_params.startDate, downl_params.endDate)
+    return get_query_sentinel_2(df, downl_params)
 
 
 def download_products(df, products_dir, username: str, password: str, tmp_path_same_folder_dwl: bool):

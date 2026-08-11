@@ -1,3 +1,4 @@
+import os
 import sys
 from util.cdsetool_handler_burst_mgs import get_query_sentinel1,download_products, get_query_sentinel2
 from util.command_execution import CommandExecution
@@ -41,12 +42,18 @@ if __name__ == "__main__":
             query_df,features = get_query_sentinel1(df,download_parameters)
             download_products(query_df, DOWNLOAD_PATH, download_parameters.user, download_parameters.password, download_parameters.tmp_path_same_folder_dwl)
             if (download_parameters.sentinel1Param.productType == 'SLC'):
-                download_parameters.embed_parameters_preprocessing_sentienl1()
-                preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH) 
-                snap_commands = coherence_snap_cmds(query_df,DOWNLOAD_PATH,preprocess_path)
-                exectuioner = CommandExecution(snap_commands)
-                exectuioner.execute()
-                print("Command executed")
+                if query_df.empty:
+                    print("No Sentinel-1 products found; skipping preprocessing")
+                else:
+                    download_parameters.embed_parameters_preprocessing_sentienl1()
+                    preprocess_path = create_path(DOWNLOAD_PATH,PREPROCESS_PATH) 
+                    snap_commands = coherence_snap_cmds(query_df,DOWNLOAD_PATH,preprocess_path)
+                    if not snap_commands or all(len(cmds) == 0 for cmds in snap_commands.values()):
+                        print("No SNAP coherence commands generated; skipping execution")
+                    else:
+                        exectuioner = CommandExecution(snap_commands)
+                        exectuioner.execute()
+                        print("Command executed")
             else:
                 print('preprocess not supported for product type ' + download_parameters.sentinel1Param.productType)
         elif download_parameters.is_sentinel2():
@@ -74,7 +81,12 @@ if __name__ == "__main__":
     else:
         currentpath_files = DOWNLOAD_PATH
         print(f"Logging all data (downloaded + preporcess) from {currentpath_files}")
-    
+        
+        
+    for name in os.listdir(currentpath_files):
+        full = os.path.join(currentpath_files, name)
+        print("[DIR] " + name if os.path.isdir(full) else "[FILE] " + name)
+        
     load_all_artifacts_from_custom(currentpath_files,artifact_name=download_parameters.artifact_name)
    
     print("Finished!")
