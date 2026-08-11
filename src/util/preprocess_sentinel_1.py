@@ -20,7 +20,11 @@ def coherence_snap_cmds(df, products_dir, output_dir):
     import zipfile
     import re
     import os
-    
+
+    if df.empty or 'Name' not in df.columns:
+        print("No products to process, skipping SNAP command generation")
+        return {}
+
     #get SNAP cmd lines for each burst
     snap = {}
     snap_graph_path = get_path_snap_coherence()
