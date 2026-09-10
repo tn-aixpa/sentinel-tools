@@ -3,3 +3,5 @@ geopandas==1.0.1
 shapely==2.0.6
 geojson==3.1.0
 digitalhub==0.15.8
+digitalhub-runtime-container==0.15.3
+digitalhub-runtime-python==0.15.2
